@@ -5,3 +5,8 @@ table{
 td{
 	border: 1px solid black;
 }
+.schedule_mask{
+	border: 1px solid blue;
+	background-color: skyblue;
+	opacity: 0.5;
+}

@@ -25,7 +25,8 @@
 						colors:['red','yellow','green'],
 						rows:7,
 						cols:48,
-						cells:{width:'10px',height:'20px'}
+						cells:{width:'10px',height:'20px'},
+						selcolor:0
 					},
 					methods:{
 						printData(){
@@ -38,7 +39,7 @@
 	</head>
 	<body>
 		<div id="container">
-			<schedule_list :colors="colors" :rows="rows" :cols="cols" :cells="cells" :data="data"></schedule_list>
+			<schedule_list :colors="colors" :rows="rows" :cols="cols" :cells="cells" :data="data" :selcolor="selcolor"></schedule_list>
 			<button @click="printData">打印数据</button>
 		</div>
 	</body>
