@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<title>Schedule Demo</title>
+		<link rel="stylesheet" type="text/css" href="css/schedule.css"/>
+		<script src="js/vue.min.js"></script>
+		<script src="js/schedule.js"></script>
+		<script type="text/javascript">
+			var data = [];
+			for(var i = 0;i < 3;++i){
+				data.push([]);
+				for(var j = 0;j < 7;++j){
+					data[i].push([])
+					for(var k = 0;k < 48;++k){
+						data[i][j].push(1);
+					}
+				}
+			}
+			window.onload = function(){
+				new Vue({
+					el:'#container',
+					data:{
+						data:data,
+						colors:['red','yellow','green'],
+						rows:7,
+						cols:48,
+						cells:{width:'10px',height:'20px'}
+					},
+					methods:{
+						printData(){
+							console.log(this.data);
+						}
+					}
+				});
+			};
+		</script>
+	</head>
+	<body>
+		<div id="container">
+			<schedule_list :colors="colors" :rows="rows" :cols="cols" :cells="cells" :data="data"></schedule_list>
+			<button @click="printData">打印数据</button>
+		</div>
+	</body>
+</html>
