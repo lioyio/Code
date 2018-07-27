@@ -4,11 +4,12 @@
 		<meta charset="utf-8"/>
 		<title>Schedule Demo</title>
 		<link rel="stylesheet" type="text/css" href="css/schedule.css"/>
-		<script src="js/vue.min.js"></script>
+		<script src="js/vue.js"></script>
 		<script src="js/schedule.js"></script>
 		<script type="text/javascript">
+			var colors = ['red','yellow','green','skyblue'];
 			var data = [];
-			for(var i = 0;i < 3;++i){
+			for(var i = 0;i < colors.length;++i){
 				data.push([]);
 				for(var j = 0;j < 7;++j){
 					data[i].push([])
@@ -21,15 +22,18 @@
 				new Vue({
 					el:'#container',
 					data:{
-						data:data,
-						colors:['red','yellow','green'],
-						rows:7,
-						cols:48,
-						cells:{width:'10px',height:'20px'},
-						selcolor:0
+						schedule:{
+							data:data,
+							colors:colors,
+							words:colors,
+							cells:{width:'10px',height:'10px'},
+							weeks:['Sun.','Mon.','Tues.','Wed.','Thur','Fri.','Sat.'],
+							//radio:ScheduleRadioEnum.BOTTOM,
+							//selcolor:1
+						}
 					},
 					methods:{
-						printData(){
+						printData:function(){
 							console.log(this.data);
 						}
 					}
@@ -37,10 +41,10 @@
 			};
 		</script>
 	</head>
-	<body>
+	<body style="background-color: black;color:white">
 		<div id="container">
-			<schedule_list :colors="colors" :rows="rows" :cols="cols" :cells="cells" :data="data" :selcolor="selcolor"></schedule_list>
-			<button @click="printData">打印数据</button>
+			<schedule-list :schedule="schedule"></schedule-list>
+			<button @click="printData" :style="{marginTop:'20px'}">打印数据</button>
 		</div>
 	</body>
 </html>
