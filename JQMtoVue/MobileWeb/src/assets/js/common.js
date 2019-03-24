@@ -2,13 +2,13 @@ let common = {
   getPagearea () {
     if (document.compatMode === 'BackCompat') {
       return {
-        width: document.body.scrollWidth,
-        height: document.body.scrollHeight
+        width: document.body.clientWidth,
+        height: document.body.clientHeight
       }
     } else {
       return {
-        width: document.documentElement.scrollWidth,
-        height: document.documentElement.scrollHeight
+        width: document.documentElement.clientWidth,
+        height: document.documentElement.clientHeight
       }
     }
   },

@@ -2,7 +2,8 @@
   <div>
     <button class="ui-btn" @click="Add">Add option</button>
     <button class="ui-btn" @click="Remove">Remove option</button>
-    <vueselect :selected="0" :options="options" style="position:absolute;top:100px;left:100px"></vueselect>
+    <label class="ui-mobile" id="label1">Channel</label>
+    <vueselect :data="data" :label="'label1'" style=""></vueselect>
   </div>
 </template>
 <script>
@@ -10,7 +11,10 @@ import vueselect from '@/components/vueselect'
 export default {
   data () {
     return {
-      options: ['CH1', 'CH2']
+      data: {
+        options: ['CH1', 'CH2'],
+        selected: 0
+      }
     }
   },
   components: {
@@ -18,10 +22,10 @@ export default {
   },
   methods: {
     Add () {
-      this.options.push('CH' + (this.options.length + 1))
+      this.data.options.push('CH' + (this.data.options.length + 1))
     },
     Remove () {
-      this.options.pop()
+      this.data.options.pop()
     }
   }
 }
