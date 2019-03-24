@@ -15,8 +15,8 @@
 
 <body>
     <div id="app">
-        <div class="ui-btn" @click="add">增加选项</div>
-        <div class="ui-btn" @click="del">减少选项</div>
+        <div class="ui-btn" @click="add">增加通道</div>
+        <div class="ui-btn" @click="del">减少通道</div>
         <table style="width:100%;">
             <tr>
                 <td style="width:20%;">
@@ -47,6 +47,7 @@
 
 </body>
 <script>
+    Vue.config.devtools = false
     let vm = new Vue({
         el: '#app',
         data() {
@@ -60,7 +61,7 @@
                     selected: 0
                 },
                 OverWrite: {
-                    options: ['1天', '2天', '3天', '5天', '7天', '10天', '15天', '30天', '60天', '90天'],
+                    options: ['1天', '3天', '5天', '7天', '15天', '30天', '60天', '90天'],
                     selected: 0
                 }
             }
