@@ -1,7 +1,7 @@
 Vue.component('vueselect',{
 	template: `
 <div class="ui-select">
-  <div style="position:relative !important;">
+  <div style="position:relative !important;" :class="{'popup':ispop}">
     <div class="ui-mini ui-btn ui-icon-carat-d ui-btn-icon-right ui-corner-all"
       @click="pop($event)" :class="{'ui-btn-active': isactive}" @mousedown="mousedown" @mouseup="mouseup" @mouseleave="mouseup">
       <a>{{ options[data.selected] }}</a>
@@ -57,7 +57,7 @@ Vue.component('vueselect',{
       type: Object,
       default: () => {
         return {
-          options: [''],
+          options: [' '],
           selected: 0
         }
       },

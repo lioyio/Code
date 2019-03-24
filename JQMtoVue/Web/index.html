@@ -7,15 +7,42 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link rel="stylesheet" href="./css/main.css">
-    <script src="./js/vue.js"></script>
+    <!-- <script src="./js/vue.js"></script> -->
+    <script src="./js/vue.min.js"></script>
     <script src="./assets/js/common.js"></script>
     <script src="./js/vueselect.js"></script>
 </head>
 
 <body>
     <div id="app">
-        <label id="label1" class="ui-mobile">Channel</label>
-        <vueselect :data="data" :label="'label1'"></vueselect>
+        <div class="ui-btn" @click="add">增加选项</div>
+        <div class="ui-btn" @click="del">减少选项</div>
+        <table style="width:100%;">
+            <tr>
+                <td style="width:20%;">
+                    <label id="Channel" class="ui-mobile">通道</label>
+                </td>
+                <td style="width:80%;">
+                    <vueselect :data="Channel" :label="'Channel'"></vueselect>
+                </td>
+            </tr>
+            <tr>
+                <td style="width:20%;">
+                    <label id="Enable" class="ui-mobile">开关</label>
+                </td>
+                <td style="width:80%;">
+                    <vueselect :data="Enable" :label="'Enable'"></vueselect>
+                </td>
+            </tr>
+            <tr>
+                <td style="width:20%;">
+                    <label id="OverWrite" class="ui-mobile">复写</label>
+                </td>
+                <td style="width:80%;">
+                    <vueselect :data="OverWrite" :label="'OverWrite'"></vueselect>
+                </td>
+            </tr>
+        </table>
     </div>
 
 </body>
@@ -24,10 +51,26 @@
         el: '#app',
         data() {
             return {
-                data: {
-                    options: ['CH1', 'CH2'],
+                Channel: {
+                    options: ['通道1', '通道2'],
+                    selected: 0
+                },
+                Enable: {
+                    options: ['开启', '关闭'],
+                    selected: 0
+                },
+                OverWrite: {
+                    options: ['1天', '2天', '3天', '5天', '7天', '10天', '15天', '30天', '60天', '90天'],
                     selected: 0
                 }
+            }
+        },
+        methods: {
+            add () {
+                this.Channel.options.push('通道' + (this.Channel.options.length + 1))
+            },
+            del () {
+                this.Channel.options.pop()
             }
         }
     })

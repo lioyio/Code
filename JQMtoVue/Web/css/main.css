@@ -26,7 +26,7 @@
 label.ui-mobile,
 .ui-controlgroup-label {
   display: block;
-  margin: 0 0 .4em;
+ /* margin: 0 0 .4em;*/
   line-height: 1.3;
   font-family: sans-serif;
   text-align: left;
@@ -316,6 +316,9 @@ li {
   bottom: 0;
   left: 0;
   right: 0;
+}
+.popup{
+  z-index: 1000;
 }
 
 .ui-select .overlayMask.fullscreen {
