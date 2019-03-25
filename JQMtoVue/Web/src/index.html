@@ -11,6 +11,7 @@
     <script src="../static/js/vue.min.js"></script>
     <script src="./assets/js/common.js"></script>
     <script src="./js/vueselect.js"></script>
+    <script src="./js/vueswitch.js"></script>
 </head>
 
 <body>
@@ -31,7 +32,7 @@
                     <label id="Enable" class="ui-mobile">开关</label>
                 </td>
                 <td style="width:80%;">
-                    <vueselect :data="Enable" :label="'Enable'"></vueselect>
+                    <vueswitch :data="Enable" :label="'Enable'"></vueswitch>
                 </td>
             </tr>
             <tr>
@@ -44,7 +45,7 @@
             </tr>
         </table>
     </div>
+	<script src="./index.js"></script>
 </body>
-<script src="./index.js"></script>
 
 </html>

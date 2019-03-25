@@ -8,8 +8,7 @@ let vm = new Vue({
                 selected: 0
             },
             Enable: {
-                options: ['开启', '关闭'],
-                selected: 0
+                open: 1
             },
             OverWrite: {
                 options: ['1天', '3天', '5天', '7天', '15天', '30天', '60天', '90天'],

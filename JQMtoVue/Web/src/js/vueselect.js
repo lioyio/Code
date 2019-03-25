@@ -98,6 +98,9 @@ Vue.component('vueselect',{
     },
     listSize (obj) {
       let objarr = Array.from(obj.children)
+      if (objarr.length !== this.options.length) {
+        objarr.shift()
+      }
       return {
         width: obj.offsetWidth,
         height: objarr.reduce((accumulator, currentValue) => {
