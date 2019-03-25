@@ -35,3 +35,13 @@ let common = {
     return actualTop
   }
 }
+if(!Array.from){
+  Array.from = (iterable) => {
+      // IE(包括IE11)没有这个方法,用[].slice.call(new Uint8Array..代替
+      let arr = new Array()
+      for(let i = 0;i < iterable.length;++i){
+        arr.push(iterable[i])
+      }
+      return arr
+  }
+}

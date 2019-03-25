@@ -36,3 +36,13 @@ let common = {
   }
 }
 export default common
+if (!Array.from) {
+  Array.from = (iterable) => {
+    // IE(����IE11)û���������,��[].slice.call(new Uint8Array..����
+    let arr = []
+    for (let i = 0; i < iterable.length; ++i) {
+      arr.push(iterable[i])
+    }
+    return arr
+  }
+}

@@ -26,10 +26,11 @@
 label.ui-mobile,
 .ui-controlgroup-label {
   display: block;
-  margin: 0 0 .4em;
+  /* margin: 0 0 .4em;*/
   line-height: 1.3;
   font-family: sans-serif;
   text-align: left;
+  user-select: none;
 }
 
 label.ui-mobile,
@@ -103,6 +104,24 @@ div.ui-controlgroup-label {
 }
 
 .ui-btn-icon-left:after,
+.ui-btn-icon-center:after,
+.ui-btn-icon-right:after,
+.ui-btn-icon-top:after,
+.ui-btn-icon-bottom:after,
+.ui-btn-icon-notext:after {
+  background-color: #666;
+  background-color: rgba(0, 0, 0, .3);
+  background-position: center center;
+  background-repeat: no-repeat;
+  -webkit-border-radius: 1em;
+  border-radius: 1em
+}
+
+.ui-btn-icon-right:after {
+	background-color: transparent;
+}
+
+.ui-btn-icon-left:after,
 .ui-btn-icon-right:after,
 .ui-btn-icon-top:after,
 .ui-btn-icon-bottom:after,
@@ -112,17 +131,6 @@ div.ui-controlgroup-label {
   display: block;
   width: 22px;
   height: 22px;
-}
-
-.ui-btn-icon-left:after,
-.ui-btn-icon-right:after,
-.ui-btn-icon-top:after,
-.ui-btn-icon-bottom:after,
-.ui-btn-icon-notext:after {
-  background-position: center center;
-  background-repeat: no-repeat;
-  -webkit-border-radius: 1em;
-  border-radius: 1em;
 }
 
 .ui-icon-carat-d:after {
@@ -214,7 +222,7 @@ div.ui-controlgroup-label {
 }
 
 .ui-icon-delete:after {
-  background-image: url(data:image/svg+xml;charset=US-ASCII,%3C%3Fxml%20version%3D%221.0%22%20encod…E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3C%2Fsvg%3E);
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22iso-8859-1%22%3F%3E%3C!DOCTYPE%20svg%20PUBLIC%20%22-%2F%2FW3C%2F%2FDTD%20SVG%201.1%2F%2FEN%22%20%22http%3A%2F%2Fwww.w3.org%2FGraphics%2FSVG%2F1.1%2FDTD%2Fsvg11.dtd%22%3E%3Csvg%20version%3D%221.1%22%20id%3D%22Layer_1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%20%20width%3D%2214px%22%20height%3D%2214px%22%20viewBox%3D%220%200%2014%2014%22%20style%3D%22enable-background%3Anew%200%200%2014%2014%3B%22%20xml%3Aspace%3D%22preserve%22%3E%3Cpolygon%20fill%3D%22%23FFF%22%20points%3D%2214%2C3%2011%2C0%207%2C4%203%2C0%200%2C3%204%2C7%200%2C11%203%2C14%207%2C10%2011%2C14%2014%2C11%2010%2C7%20%22%2F%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3C%2Fsvg%3E");
 }
 
 .ui-mini.ui-btn-icon-notext,
@@ -224,6 +232,7 @@ div.ui-controlgroup-label {
   font-size: 16px;
   padding: 0;
 }
+
 .ui-mini {
   margin: .446em;
   font-size: 12.5px;
@@ -232,6 +241,7 @@ div.ui-controlgroup-label {
 .ui-select.ui-mini {
   margin: .446em 0;
 }
+
 .ui-selectmenu .ui-selectmenu-list {
   -webkit-border-radius: inherit;
   border-radius: inherit;
@@ -316,6 +326,10 @@ li {
   bottom: 0;
   left: 0;
   right: 0;
+}
+
+.popup {
+  z-index: 1000;
 }
 
 .ui-select .overlayMask.fullscreen {

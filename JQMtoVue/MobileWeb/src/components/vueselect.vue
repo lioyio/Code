@@ -1,11 +1,11 @@
 <template>
   <div class="ui-select">
-    <div style="position:relative !important;">
+    <div style="position:relative !important;" :class="{'popup':ispop}">
       <div class="ui-mini ui-btn ui-icon-carat-d ui-btn-icon-right ui-corner-all"
         @click="pop($event)" :class="{'ui-btn-active': isactive}" @mousedown="mousedown" @mouseup="mouseup" @mouseleave="mouseup">
         <a>{{ options[data.selected] }}</a>
       </div>
-      <div v-show="options.length != 0 && ispop" class="overlayMask" :class="{'fullscreen':isFullScreen}" @click="hide"></div>
+      <div v-show="options.length != 0 && ispop" class="overlayMask" :class="{'fullscreen':isFullScreen}" @click="!isFullScreen?hide():''"></div>
       <ul v-show="options.length != 0 && ispop" class="ui-selectmenu ui-selectmenu-list ui-listview ui-corner-all" style="position:absolute !important;overflow:auto;" :style="optionBoxPos">
         <div v-if="isFullScreen" class="ui-header ui-first-child">
           <div class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-left" @click="hide"></div>
@@ -62,7 +62,7 @@ export default {
       type: Object,
       default: () => {
         return {
-          options: [''],
+          options: [' '],
           selected: 0
         }
       },
@@ -121,8 +121,8 @@ export default {
       let newPoptargetPos = this.newPoptargetPos()
       let top = (newPoptargetPos.offsetHeight - listSize.height) / 2
       let left = (newPoptargetPos.offsetWidth - this.objPos.width) / 2
-      let right = 'unset'
-      let bottom = 'unset'
+      let right = 'auto'
+      let bottom = 'auto'
       let position = 'absolute !important'
       let maxtop = pageArea.height - listSize.height - 16
       let maxleft = pageArea.width - this.objPos.width - 16
