@@ -8,11 +8,20 @@ let vm = new Vue({
                 selected: 0
             },
             Enable: {
-                open: 1
+                checked: 1
             },
             OverWrite: {
                 options: ['1天', '3天', '5天', '7天', '15天', '30天', '60天', '90天'],
                 selected: 0
+            },
+            SelectAll: {
+                checked: 1
+            },
+            AnalogAll: {
+                checked: 1
+            },
+            IPAll: {
+                checked: 1
             }
         }
     },

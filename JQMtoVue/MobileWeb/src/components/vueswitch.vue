@@ -1,6 +1,7 @@
 <template>
-  <div class="ui-flipswitch ui-corner-all" :class="{'ui-flipswitch-active': data.open}" @click="toggle">
-    <div class="ui-flipswitch-on ui-btn"></div>
+  <div :class="{'ui-checkbox ui-mini':checkbox,'ui-flipswitch ui-corner-all':!checkbox,'ui-flipswitch-active': data.checked&&!checkbox}" @click="toggle">
+      <label v-if="checkbox" class="ui-btn ui-corner-all" :class="{'ui-notext':text==='','ui-checkbox-on':data.checked,'ui-checkbox-off':!data.checked,'ui-btn-icon-left':pos!=='right','ui-btn-icon-right':pos==='right'}">{{text}}</label>
+      <div v-if="!checkbox" class="ui-flipswitch-on ui-btn"></div>
   </div>
 </template>
 
@@ -8,18 +9,35 @@
 export default {
   name: 'vueswitch',
   props: {
+    checkbox: {
+      type: Boolean,
+      default: false
+    },
+    pos: {
+      type: String,
+      default: 'left'
+    },
+    text: {
+      type: String,
+      default: ''
+    },
     data: {
       type: Object,
-      default: () => {
+      default () {
         return {
-          open: 0
+          checked: 0
         }
       }
     }
   },
   methods: {
     toggle () {
-      this.data.open = !this.data.open
+      this.data.checked = !this.data.checked
+    }
+  },
+  computed: {
+    align () {
+      return this.textalign
     }
   }
 }
