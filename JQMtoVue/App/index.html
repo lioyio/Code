@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=no">
+    <script src="./js/jquery-1.11.1.min.js"></script>
+    <script src="./js/vue.js"></script>
+    <script src="./js/vue-router.min.js"></script>
+    <script src="./js/API.js"></script>
+    <script src="./js/Enum.js"></script>
+    <script src="./js/class.js"></script>
+    <script src="./js/config.js"></script>
+    <script src="./components/vueselect.js"></script>
+    <script src="./components/vueswitch.js"></script>
+    <script src="./pages/Live.js"></script>
+    <script>
+        let vm;
+        Vue.config.devtools = true
+        let gVar = {}
+        let urlparam = window.location.search.split('?')[1]
+        if (urlparam !== undefined) {
+            urlparam.split('&').forEach((val) => {
+                gVar[val[0]] = val[1];
+            })
+        }
+        $.extend(true, gVar, new GlobalVar());
+    </script>
+    <script src="./js/index.js" type="module"></script>
+    <title>App</title>
+</head>
+
+<body>
+    <div id="app" :gVar='gVar'>
+        <button @click="JSSendMessageToApp(JSON.stringify({Type: 'GoBack'}))">Back</button>
+        <div v-html='debugstr'></div>
+    </div>
+</body>
+
+</html>
