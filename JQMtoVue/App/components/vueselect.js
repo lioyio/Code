@@ -1,10 +1,10 @@
-Vue.component('vueselect',{
-	template: `
+Vue.component('vueselect', {
+  template: `
 <div class="ui-select">
   <div style="position:relative !important;" :class="{'popup':ispop}">
     <div class="ui-mini ui-btn ui-icon-carat-d ui-btn-icon-right ui-corner-all"
       @click="pop($event)" :class="{'ui-btn-active': isactive}" @mousedown="mousedown" @mouseup="mouseup" @mouseleave="mouseup">
-      <a>{{ options[data.selected] }}</a>
+      <a>{{ options[sel()] }}</a>
     </div>
     <div v-show="options.length != 0 && ispop" class="overlayMask" :class="{'fullscreen':isFullScreen}" @click="!isFullScreen?hide():''"></div>
     <ul v-show="options.length != 0 && ispop" class="ui-selectmenu ui-selectmenu-list ui-listview ui-corner-all" style="position:absolute !important;overflow:auto;" :style="optionBoxPos">
@@ -13,13 +13,13 @@ Vue.component('vueselect',{
         <div class="ui-title">{{ title() }}</div>
       </div>
       <li @click="select($event)" :value="key" :class="{'ui-first-child': key === 0 && !isFullScreen, 'ui-last-child': key === (options.length - 1)}" v-for="(item, key) in options" :key="key">
-        <div class="ui-btn" :class="{'ui-btn-active':key === data.selected}">{{item}}</div>
+        <div class="ui-btn" :class="{'ui-btn-active':key === sel()}">{{item}}</div>
       </li>
     </ul>
   </div>
 </div>`,
   name: 'vueselect',
-  data () {
+  data() {
     return {
       oldoptions: [],
       ispop: false,
@@ -43,8 +43,8 @@ Vue.component('vueselect',{
     }
   },
   computed: {
-    options () {
-      return this.data.options
+    options() {
+      return this.init.options
     }
   },
   props: {
@@ -54,19 +54,27 @@ Vue.component('vueselect',{
         return ''
       }
     },
-    data: {
+    init: {
       type: Object,
       default: () => {
         return {
           options: [' '],
-          selected: 0
+          values: [0]
         }
       },
       required: true
+    },
+    value: {
+      type:Object,
+      default:() => {
+        return {
+          selected: 0
+        }
+      }
     }
   },
   methods: {
-    newPoptargetPos () {
+    newPoptargetPos() {
       return {
         top: common.getElementTop(this.poptarget),
         left: common.getElementLeft(this.poptarget),
@@ -74,30 +82,30 @@ Vue.component('vueselect',{
         offsetWidth: this.poptarget.offsetWidth
       }
     },
-    title () {
+    title() {
       return this.label === '' ? ' ' : document.getElementById(this.label).innerText
     },
-    pop (event) {
+    pop(event) {
       if (this.options.length === 0) {
         return
       }
       this.ispop = true
       this.poptarget = event.currentTarget
     },
-    hide () {
+    hide() {
       this.ispop = false
     },
-    mousedown () {
+    mousedown() {
       this.isactive = true
     },
-    mouseup () {
+    mouseup() {
       this.isactive = false
     },
-    select (event) {
-      this.data.selected = event.currentTarget.value * 1
+    select(event) {
+      this.value.selected = this.init.values[event.currentTarget.value * 1]
       this.ispop = false
     },
-    listSize (obj) {
+    listSize(obj) {
       let objarr = Array.from(obj.children)
       if (objarr.length !== this.options.length) {
         objarr.shift()
@@ -109,7 +117,7 @@ Vue.component('vueselect',{
         }, 0)
       }
     },
-    relocate (obj) {
+    relocate(obj) {
       let listSize = this.listSize(obj)
       let pageArea = common.getPagearea()
       if (JSON.stringify(this.objPos) !== JSON.stringify(listSize)) {
@@ -125,10 +133,10 @@ Vue.component('vueselect',{
       let position = 'absolute !important'
       let maxtop = pageArea.height - listSize.height - 16
       let maxleft = pageArea.width - this.objPos.width - 16
-      top = (top + newPoptargetPos.top) <= 16 ? (16 - newPoptargetPos.top)
-        : ((top + newPoptargetPos.top) > maxtop ? (maxtop - newPoptargetPos.top) : top)
-      left = (left + newPoptargetPos.left) <= 16 ? (16 - newPoptargetPos.left)
-        : ((left + newPoptargetPos.left) > maxleft ? (maxleft - newPoptargetPos.left) : left)
+      top = (top + newPoptargetPos.top) <= 16 ? (16 - newPoptargetPos.top) :
+        ((top + newPoptargetPos.top) > maxtop ? (maxtop - newPoptargetPos.top) : top)
+      left = (left + newPoptargetPos.left) <= 16 ? (16 - newPoptargetPos.left) :
+        ((left + newPoptargetPos.left) > maxleft ? (maxleft - newPoptargetPos.left) : left)
       if (left + this.objPos.width + newPoptargetPos.left >= pageArea.width - 32) {
         right = '16px'
       }
@@ -149,16 +157,21 @@ Vue.component('vueselect',{
         bottom: bottom,
         position: position
       }
+    },
+    sel() {
+      return this.init.values.findIndex((index) => {
+        return index === this.value.selected
+      })
     }
   },
-  beforeUpdate () {
+  beforeUpdate() {
     if (this.oldoptions.toString() !== this.options.toString()) {
-      if (this.data.selected > this.options.length - 1) {
-        this.data.selected = 0
+      if (this.sel() > this.options.length - 1) {
+        this.value.selected = this.values[0]
       }
     }
   },
-  updated () {
+  updated() {
     // this.poptarget作为定位目标,判断options和目标位置发生修改才重新定位，避免发生死循环
     if (this.poptarget !== undefined &&
       (this.oldoptions.toString() !== this.options.toString() ||

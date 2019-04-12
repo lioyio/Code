@@ -2,11 +2,11 @@
  * 参数页面控制相关
  */
 function config() {
-    if ((!(vm.gDevice.isUI5_0() || vm.gDevice.isUI5_2()) &&
-            vm.gDevice.isDevType(devTypeEnum.DEV_NVR) &&
-            !vm.gVar.Customer(0) &&
-            !vm.gVar.Customer(3)) ||
-        ((vm.gDevice.isUI5_0() || vm.gDevice.isUI5_2()) && vm.gDevice.GetControlBitArray(ControlBitArrayEnum.CoBitAry_8))) {
-        vm.gVar.isTriggerAlarmOut = true;
+    if ((!(gDevice.isUI5_0() || gDevice.isUI5_2()) &&
+            gDevice.isDevType(devTypeEnum.DEV_NVR) &&
+            !gVar.Customer(0) &&
+            !gVar.Customer(3)) ||
+        ((gDevice.isUI5_0() || gDevice.isUI5_2()) && gDevice.GetControlBitArray(ControlBitArrayEnum.CoBitAry_8))) {
+        gVar.isTriggerAlarmOut = true;
     }
 }

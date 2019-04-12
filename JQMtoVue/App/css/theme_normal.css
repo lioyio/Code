@@ -1,0 +1,99 @@
+html,
+body {
+	background: /*replace*/rgb(43,179,159)/*replace*/ !important;
+}
+.ui-page-theme-a .ui-flipswitch-active,
+html .ui-bar-a .ui-flipswitch-active,
+html .ui-body-a .ui-flipswitch-active,
+html body .ui-group-theme-a .ui-flipswitch-active,
+html body .ui-flipswitch.ui-bar-a.ui-flipswitch-active,
+.ui-page-theme-a .ui-slider-track .ui-btn-active,
+html .ui-bar-a .ui-slider-track .ui-btn-active,
+html .ui-body-a .ui-slider-track .ui-btn-active,
+html body .ui-group-theme-a .ui-slider-track .ui-btn-active,
+html body div.ui-slider-track.ui-body-a .ui-btn-active{
+	background: /*replace*/rgb(43,179,159)/*replace*/;
+}
+.ui-page-theme-a .app-btn,
+.header,
+.ui-btn.checked,
+.Schedule-Set-Pannel-Add-Btn a,
+.mbsc-android-holo-light .mbsc-range-btn-sel .mbsc-range-btn,
+.mbsc-android-holo-light .mbsc-fr-btn-a {
+	background-color: /*replace*/rgb(43,179,159)/*replace*/ !important;
+}
+.ui-page-theme-a .hddTable.select,
+.RadioTabs.checked,
+.ui-page-theme-a .ui-btn.ui-btn-active,
+html .ui-bar-a .ui-btn.ui-btn-active,
+html .ui-body-a .ui-btn.ui-btn-active,
+html body .ui-group-theme-a .ui-btn.ui-btn-active,
+html head+body .ui-btn.ui-btn-a.ui-btn-active,
+.ui-page-theme-a .ui-checkbox-on:after,
+html .ui-bar-a .ui-checkbox-on:after,
+html .ui-body-a .ui-checkbox-on:after,
+html body .ui-group-theme-a .ui-checkbox-on:after,
+.ui-btn.ui-checkbox-on.ui-btn-a:after{
+	background-color: /*replace*/rgb(43,179,159)/*replace*/;
+}
+.ui-page-theme-a .ui-flipswitch-active,
+html .ui-bar-a .ui-flipswitch-active,
+html .ui-body-a .ui-flipswitch-active,
+html body .ui-group-theme-a .ui-flipswitch-active,
+html body .ui-flipswitch.ui-bar-a.ui-flipswitch-active,
+.ui-page-theme-a .ui-slider-track .ui-btn-active,
+html .ui-bar-a .ui-slider-track .ui-btn-active,
+html .ui-body-a .ui-slider-track .ui-btn-active,
+html body .ui-group-theme-a .ui-slider-track .ui-btn-active,
+html body div.ui-slider-track.ui-body-a .ui-btn-active,
+.ui-page-theme-a .ui-btn.ui-btn-active,
+html .ui-bar-a .ui-btn.ui-btn-active,
+html .ui-body-a .ui-btn.ui-btn-active,
+html body .ui-group-theme-a .ui-btn.ui-btn-active,
+html head+body .ui-btn.ui-btn-a.ui-btn-active,
+.ui-page-theme-a .ui-checkbox-on:after,
+html .ui-bar-a .ui-checkbox-on:after,
+html .ui-body-a .ui-checkbox-on:after,
+html body .ui-group-theme-a .ui-checkbox-on:after,
+.ui-btn.ui-checkbox-on.ui-btn-a:after,
+.ui-page-theme-a .ui-radio-on:after,
+html .ui-bar-a .ui-radio-on:after,
+html .ui-body-a .ui-radio-on:after,
+html body .ui-group-theme-a .ui-radio-on:after,
+.ui-btn.ui-radio-on.ui-btn-a:after,
+.pie,
+.percircle .bar,
+.gt50 .fill,
+.mbsc-android-holo-light .mbsc-sc-whl-l,
+.mbsc-android-holo-light .mbsc-fr-hdr {
+	border-color: /*replace*/rgb(43,179,159)/*replace*/;
+}
+.percircle>span,
+.TIP,
+#Google_Activate_Code,
+.mbsc-android-holo-light .mbsc-fr-hdr {
+	color: /*replace*/rgb(43,179,159)/*replace*/;
+}
+.mbsc-android-holo-light .mbsc-cal-tabs .mbsc-cal-tab-sel {
+	border-bottom-color: /*replace*/rgb(43,179,159)/*replace*/;
+}
+@keyframes sel {
+	from {
+		background-color: white;
+		color: #000;
+	}
+	to {
+		background-color: /*replace*/rgb(43,179,159)/*replace*/;
+		color: ;
+	}
+}
+@keyframes unsel {
+	from {
+		background-color: /*replace*/rgb(43,179,159)/*replace*/;
+		color: #fff;
+	}
+	to {
+		background-color: white;
+		color: ;
+	}
+}

@@ -35,7 +35,7 @@ let common = {
     return actualTop
   }
 }
-export default common
+// export default common
 if (!Array.from) {
   Array.from = (iterable) => {
     // IE(����IE11)û���������,��[].slice.call(new Uint8Array..����
