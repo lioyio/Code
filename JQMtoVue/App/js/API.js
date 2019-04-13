@@ -95,7 +95,7 @@ function ShowDebugView(str) {
 }
 
 function ClearDebugView() {
-	jQuery("#debugstr").html('');
+	debugvm.ClearDebugView()
 }
 
 function HideLoader() {

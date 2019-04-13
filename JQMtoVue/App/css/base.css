@@ -74,3 +74,7 @@ table td:last-child {
     top: 3.5em;
     right: 1em;
 }
+
+#debug p{
+    margin: .2em 0;
+}

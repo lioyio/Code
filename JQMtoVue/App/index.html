@@ -35,7 +35,8 @@
 <body>
     <div id="app">
         <div class="AppHeader">
-            <button class="ui-btn left" v-cloak onclick="JSSendMessageToApp(JSON.stringify({Type: 'GoBack'}))">{{lg.IDS_BACK}}</button>
+            <button class="ui-btn left" v-cloak
+                onclick="JSSendMessageToApp(JSON.stringify({Type: 'GoBack'}))">{{lg.IDS_BACK}}</button>
             <button class="ui-btn right" v-cloak @click="Get">{{lg.IDS_REFRESH}}</button>
             <button class="ui-btn right" v-cloak @click="Set">{{lg.IDS_SAVE}}</button>
 
@@ -45,7 +46,13 @@
         <router-view></router-view>
     </div>
     <div id="debug">
-        <vueconsole  v-show="showConsole.flag" :show="showConsole"></vueconsole>
+        <!-- <vueconsole  v-show="showConsole.flag" :show="showConsole"></vueconsole> -->
+        <div class="Console" v-show="showConsole.flag">
+            <button v-cloak class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext" @click="toggle"></button>
+            <div v-for="(item, index) in showConsole.data" :key="index">
+                <vuesmartconsole :data="item" :root="true"></vuesmartconsole>
+            </div>
+        </div>
     </div>
 </body>
 

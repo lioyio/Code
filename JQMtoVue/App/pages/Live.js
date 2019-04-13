@@ -150,6 +150,7 @@ Vue.component('Live', {
         },
         Call(data) {
             jQuery.extend(true, this.Data, data)
+            ShowDebugView(data)
             this.ShowData()
         },
         Get() {
