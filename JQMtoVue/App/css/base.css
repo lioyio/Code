@@ -1,0 +1,76 @@
+html {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    position: absolute;
+    top: 2.8em;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+}
+
+.AppHeader {
+    height: 2.8em;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.AppHeader .ui-btn {
+    margin: 0;
+    background-color: transparent;
+    border: none;
+    color: white;
+    padding-left: .5em;
+    padding-right: .5em;
+}
+
+.AppHeader .debug{
+    display: none;
+}
+
+.AppHeader .left {
+    float: left;
+}
+
+.AppHeader .right {
+    float: right;
+}
+
+table {
+    width: 100%;
+    padding: 0 5%;
+}
+
+table td:first-child {
+    width: 45%;
+}
+
+table td:last-child {
+    width: 55%;
+}
+
+.Console {
+    position: fixed;
+    top: 2.8em;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1001;
+    background-color: white;
+    overflow-y: auto;
+    overflow-x: hidden;
+    word-break: break-all;
+}
+
+.Console .ui-btn {
+    position: fixed;
+    top: 3.5em;
+    right: 1em;
+}

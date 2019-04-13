@@ -38,19 +38,19 @@ function JSSendMessageToWeb(data) {
 
 			    }
 			    break;
-			// case "Set": //网页保存数据返回
-			//     HideLoader();
-			//     if(!gVar.bNoTips) {
-			//         if(data.Data==="Success") {
-			//             ShowTips(lg.IDS_SAVE_SUCCESS);
-			//         } else {
-			//             ShowTips(lg.IDS_SAVE_FAILED);
-			//         }
-			//     }else{
-			//         gVar.bNoTips = false;
-			//     }
-			//     //ShowDebugView(data.Data);
-			//     break;
+			case "Set": //网页保存数据返回
+			    HideLoader();
+			    if(!gVar.bNoTips) {
+			        if(data.Data==="Success") {
+			            //ShowTips(lg.IDS_SAVE_SUCCESS);
+			        } else {
+			            //ShowTips(lg.IDS_SAVE_FAILED);
+			        }
+			    }else{
+			        gVar.bNoTips = false;
+			    }
+			    //ShowDebugView(data.Data);
+			    break;
 			// case "RemoteTest": //RemoteTest返回
 			//     ret = RemoteTestCall(data.SubType, data.Data);
 			//     break;
@@ -91,7 +91,11 @@ function JSSendMessageToApp(data) {
 }
 
 function ShowDebugView(str) {
-	jQuery("#debugstr").html(jQuery("#debugstr").html()+'<p>' + str + '</p>');
+	debugvm.ShowDebugView(str)
+}
+
+function ClearDebugView() {
+	jQuery("#debugstr").html('');
 }
 
 function HideLoader() {

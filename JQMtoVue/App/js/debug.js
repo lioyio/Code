@@ -1,3 +1,27 @@
+function DebugInit(){
+    if (gVar.bDebug) {
+        debugvm = new Vue({
+            el: '#debug',
+            data: {
+                showConsole: {
+                    flag: false,
+                    debugstr: ''
+                }
+            },
+            methods: {
+                toggle() {
+                    this.showConsole.flag = !this.showConsole.flag
+                },
+                ShowDebugView(str){
+                    this.showConsole.debugstr += '<p>' + str + '</p>'
+                }
+            }
+        })
+        jQuery('.AppHeader .debug').show();
+        FakeData();
+    }
+}
+
 function FakeData(){
     gDevice.loginRsp.ChannelNum = 20;
 	gDevice.loginRsp.AnalogChNum = 8;

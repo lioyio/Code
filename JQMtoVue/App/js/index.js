@@ -1,8 +1,9 @@
 let lg = []
 let vm
+let debugvm
 let gVar = {}
 let gDevice = new DeviceInfo()
-let CfgCallback = () => {}
+let CfgCallback = () => { }
 
 let urlparam = window.location.search.split('?')[1]
 
@@ -15,16 +16,14 @@ if (urlparam !== undefined) {
 jQuery.extend(true, gVar, new GlobalVar())
 
 Vue.config.devtools = true
-//gVar.bDebug = true
+gVar.bDebug = true
 
 jQuery(document).ready(function () {
     InitWeb()
 });
 
 function InitWeb() {
-    if(gVar.bDebug){
-        FakeData();
-    }
+    DebugInit();
     LoadLanguage(gVar['language'])
 }
 
@@ -109,6 +108,14 @@ function LoadRemoteSettingPage(pagename) {
                 data: {
                     debugstr: '',
                     lg: lg
+                },
+                methods: {
+                    Get() {
+                        this.$router.app.$children[0].$children[0].Get();
+                    },
+                    Set() {
+                        this.$router.app.$children[0].$children[0].Get();
+                    }
                 }
             })
         }
@@ -184,7 +191,7 @@ function GetPageName(pageIndex) {
 
 /*刷新回调*/
 function GetAppDataCall(data) {
-	ShowDebugView("GetAppDataCall SubType:" + data.SubType);
-	//ShowDebugView("GetAppData Data:"+data.Data);
-	CfgCallback(data.Data);
+    ShowDebugView("GetAppDataCall SubType:" + data.SubType);
+    //ShowDebugView("GetAppData Data:"+data.Data);
+    CfgCallback(data.Data);
 }

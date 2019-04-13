@@ -7,7 +7,7 @@ Vue.component('Live', {
                             <label>{{lg.IDS_CHANNEL}}</label>
                             </td>
                             <td>
-                            <vueselect :init='options.Channel' :value='VueData.Channel'></vueselect>
+                            <vueselect :init='options.Channel' :value='value'></vueselect>
                             </td>
                         </tr>
                         <tr>
@@ -39,7 +39,7 @@ Vue.component('Live', {
                             <label>{{lg.IDS_SHOW_NAME}}</label>
                             </td>
                             <td>
-                            <vueswitch></vueswitch>
+                            <vueswitch :data="VueData.ShowName"></vueswitch>
                             </td>
                         </tr>
                         <tr>
@@ -47,7 +47,7 @@ Vue.component('Live', {
                             <label>{{lg.IDS_SHOW_TIME}}</label>
                             </td>
                             <td>
-                            <vueswitch></vueswitch>
+                            <vueswitch :data="VueData.ShowTime"></vueswitch>
                             </td>
                         </tr>
                         <tr>
@@ -55,7 +55,7 @@ Vue.component('Live', {
                             <label>{{lg.IDS_COVERT}}</label>
                             </td>
                             <td>
-                            <vueswitch></vueswitch>
+                            <vueswitch :data="VueData.Covert"></vueswitch>
                             </td>
                         </tr>
                     </table>
@@ -67,12 +67,11 @@ Vue.component('Live', {
     },
     data() {
         return {
-            Data: {},
-            selected: -1,
+            Data: [],
+            value: {
+                selected: -1
+            },
             VueData: {
-                Channel: {
-                    selected: this.selected
-                },
                 DateFormat: {
                     selected: 0
                 },
@@ -81,10 +80,16 @@ Vue.component('Live', {
                 },
                 FlickerControl: {
                     selected: 0
+                },
+                ShowName: {
+                    checked: 0
+                },
+                ShowTime: {
+                    checked: 0
+                },
+                Covert: {
+                    checked: 0
                 }
-            },
-            options: {
-
             }
         }
     },
@@ -100,15 +105,15 @@ Vue.component('Live', {
                 let values = []
                 for (let i = 0; i < this.gDevice.loginRsp.ChannelNum; ++i) {
                     if (this.gDevice.isOnline(i)) {
-                        if (this.selected === -1) {
-                            this.selected = i
+                        if (this.value.selected === -1) {
+                            this.value.selected = i
                         }
                         options.push(this.lg.IDS_CH + (i + 1))
                         values.push(i)
                     }
                 }
                 if (values.length === 0) {
-                    this.selected = 0
+                    this.value.selected = 0
                     values = [0]
                     options = ['　']
                 }
@@ -141,40 +146,46 @@ Vue.component('Live', {
                     values
                 }
             })()
-            this.options = options;
-            this.ShowData()
+            this.options = options
         },
         Call(data) {
-            jQuery.extend(true, this.Data, data);
-            this.ShowData();
+            jQuery.extend(true, this.Data, data)
+            this.ShowData()
         },
         Get() {
-            RfParamCall(this.Call, paramPage.MsgParamModifyLiving, "Get");
+            RfParamCall(this.Call, paramPage.MsgParamModifyLiving, "Get")
         },
         Set() {
-            SaveSelChn();
-            //dataStr = JSON.stringify(Data);
-            //RfParamCall(this.Call, paramPage.MsgParamModifyLiving, "Set", Data);
+            SaveSelChn()
+            //dataStr = JSON.stringify(Data)
+            RfParamCall(this.Call, paramPage.MsgParamModifyLiving, "Set", this.Data)
         },
         ShowData() {
-            this.VueData.Channel = {
-                selected: this.selected
-            }
-            this.VueData.DateFormat = {
-                selected: this.Data[this.selected] === undefined ? 0 : this.Data[this.selected].DateMode
-            }
-            this.VueData.TimeFormat = {
-                selected: this.Data[this.selected] === undefined ? 0 : this.Data[this.selected].TimeMode
-            }
-            this.VueData.FlickerControl = {
-                selected: this.Data[this.selected] === undefined ? 0 : this.Data[this.selected].FlickerCtrl
-            }
+            let isnull = this.Data[this.value.selected] === undefined
+            this.VueData.DateFormat.selected = isnull ? 0 : this.Data[this.value.selected].DateMode
+            this.VueData.TimeFormat.selected = isnull ? 0 : this.Data[this.value.selected].TimeMode
+            this.VueData.FlickerControl.selected = isnull ? 0 : this.Data[this.value.selected].FlickerCtrl
+            this.VueData.ShowName.checked = isnull ? 0 : this.Data[this.value.selected].ChnNameFlag
+            this.VueData.ShowTime.checked = isnull ? 0 : this.Data[this.value.selected].RecTimeFlag
+            this.VueData.Covert.checked = isnull ? 0 : this.Data[this.value.selected].Covert
         },
-        SaveSelChn() {
-
+        SaveSelChn(oldsel) {
+            if (this.Data[oldsel]) {
+                this.Data[oldsel].DateMode = this.VueData.DateFormat.selected
+                this.Data[oldsel].TimeMode = this.VueData.TimeFormat.selected
+                this.Data[oldsel].FlickerCtrl = this.VueData.FlickerControl.selected
+                this.Data[oldsel].ChnNameFlag = this.VueData.ShowName.checked
+                this.Data[oldsel].RecTimeFlag = this.VueData.ShowTime.checked
+                this.Data[oldsel].Covert = this.VueData.Covert.checked
+            }
         }
     },
-    computed: {
-
+    watch: {
+        'value.selected': {
+            handler(newsel, oldsel) {
+                this.SaveSelChn(oldsel)
+                this.ShowData()
+            }
+        }
     }
 })

@@ -1,23 +1,23 @@
 Vue.component('vueselect', {
   template: `
-<div class="ui-select">
-  <div style="position:relative !important;" :class="{'popup':ispop}">
-    <div class="ui-mini ui-btn ui-icon-carat-d ui-btn-icon-right ui-corner-all"
-      @click="pop($event)" :class="{'ui-btn-active': isactive}" @mousedown="mousedown" @mouseup="mouseup" @mouseleave="mouseup">
-      <a>{{ options[sel()] }}</a>
-    </div>
-    <div v-show="options.length != 0 && ispop" class="overlayMask" :class="{'fullscreen':isFullScreen}" @click="!isFullScreen?hide():''"></div>
-    <ul v-show="options.length != 0 && ispop" class="ui-selectmenu ui-selectmenu-list ui-listview ui-corner-all" style="position:absolute !important;overflow:auto;" :style="optionBoxPos">
-      <div v-if="isFullScreen" class="ui-header ui-first-child">
-        <div class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-left" @click="hide"></div>
-        <div class="ui-title">{{ title() }}</div>
+    <div class="ui-select">
+      <div style="position:relative !important;" :class="{'popup':ispop}">
+        <div class="ui-mini ui-btn ui-icon-carat-d ui-btn-icon-right ui-corner-all"
+          @click="pop($event)" :class="{'ui-btn-active': isactive}" @mousedown="mousedown" @mouseup="mouseup" @mouseleave="mouseup">
+          <a>{{ options[sel()] }}</a>
+        </div>
+        <div v-show="options.length != 0 && ispop" class="overlayMask" :class="{'fullscreen':isFullScreen}" @click="!isFullScreen?hide():''"></div>
+        <ul v-show="options.length != 0 && ispop" class="ui-selectmenu ui-selectmenu-list ui-listview ui-corner-all" style="position:absolute !important;overflow:auto;" :style="optionBoxPos">
+          <div v-if="isFullScreen" class="ui-header ui-first-child">
+            <div class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-left" @click="hide"></div>
+            <div class="ui-title">{{ title() }}</div>
+          </div>
+          <li @click="select($event)" :value="key" :class="{'ui-first-child': key === 0 && !isFullScreen, 'ui-last-child': key === (options.length - 1)}" v-for="(item, key) in options" :key="key">
+            <div class="ui-btn" :class="{'ui-btn-active':key === sel()}">{{item}}</div>
+          </li>
+        </ul>
       </div>
-      <li @click="select($event)" :value="key" :class="{'ui-first-child': key === 0 && !isFullScreen, 'ui-last-child': key === (options.length - 1)}" v-for="(item, key) in options" :key="key">
-        <div class="ui-btn" :class="{'ui-btn-active':key === sel()}">{{item}}</div>
-      </li>
-    </ul>
-  </div>
-</div>`,
+    </div>`,
   name: 'vueselect',
   data() {
     return {
@@ -102,8 +102,12 @@ Vue.component('vueselect', {
       this.isactive = false
     },
     select(event) {
-      this.value.selected = this.init.values[event.currentTarget.value * 1]
       this.ispop = false
+      let curval = this.init.values[event.currentTarget.value * 1]
+      if(this.value.selected !== curval){
+        this.$emit('vue-change',curval,this.value.selected)
+        this.value.selected = curval
+      }
     },
     listSize(obj) {
       let objarr = Array.from(obj.children)

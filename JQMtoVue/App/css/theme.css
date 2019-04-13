@@ -1,0 +1,8 @@
+.ui-btn-active,
+.ui-btn.ui-checkbox-on:after,
+.ui-flipswitch.ui-flipswitch-active,
+.AppHeader {
+    background-color: rgb(43, 179, 159) !important;
+    border-color: rgb(43, 179, 159) !important;
+    color: #fff !important;
+}
