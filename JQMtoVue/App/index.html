@@ -16,7 +16,7 @@
     <script src="./js/vue-router.min.js"></script>
     <!-- 各种基本Vue组件及其依赖库 -->
     <script src="./assets/js/common.js"></script>
-    <script src="./components/console.js"></script>
+    <script src="./components/vueconsole.js"></script>
     <script src="./components/vueselect.js"></script>
     <script src="./components/vueswitch.js"></script>
 
@@ -46,11 +46,10 @@
         <router-view></router-view>
     </div>
     <div id="debug">
-        <!-- <vueconsole  v-show="showConsole.flag" :show="showConsole"></vueconsole> -->
         <div class="Console" v-show="showConsole.flag">
             <button v-cloak class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext" @click="toggle"></button>
             <div v-for="(item, index) in showConsole.data" :key="index">
-                <vuesmartconsole :data="item" :root="true"></vuesmartconsole>
+                <vueconsole :data="item" :root="true"></vueconsole>
             </div>
         </div>
     </div>

@@ -75,6 +75,10 @@ table td:last-child {
     right: 1em;
 }
 
-#debug p{
-    margin: .2em 0;
+#debug .root{
+    margin-left: 0.5em;
+}
+
+.hide{
+    display: none;
 }
