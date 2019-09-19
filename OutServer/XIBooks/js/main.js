@@ -1,18 +1,36 @@
 $(document.body).ready(() => {
-
+	let UIDevice = plus.ios.import("UIDevice");
+	let dev = UIDevice.currentDevice();
+	if(!dev.isBatteryMonitoringEnabled()) {
+		dev.setBatteryMonitoringEnabled(true);
+	}
+	let level = dev.batteryLevel();
 	$("#searchBtn").click(() => {
-		$("#BookNav,#BookContent").hide();
-		$("#SearchNav,#SearchContent").show();
+		$(".mainPage").hide();
+		$("#Search").show();
 	});
 	$(".backBtn").click(function() {
-		if($(this).parent().attr("id") === "SearchNav") {
-			$("#BookNav,#BookContent").show();
-			$("#SearchNav,#SearchContent").hide();
-			$("#searchList").empty();
-		} else {
-			$("#SearchNav,#SearchContent").show();
-			$("#BookInfoNav,#BookInfoContent,#BookInfoFooter").hide();
-			$("#bookInfo").empty();
+		switch($(this).parent().attr("id")) {
+			case "SearchNav":
+				{
+					$(".mainPage").hide();
+					$("#Book").show();
+					$("#searchList").empty();
+				}
+				break;
+			case "BookInfoNav":
+				{
+					$(".mainPage").hide();
+					$("#Search").show();
+					$("#bookInfo").empty();
+				}
+				break;
+			case "BackBar":
+				{
+					$(".mainPage").hide();
+					$($("#BackBar").data("from")).show();
+				}
+				break;
 		}
 	});
 	$("#searchInput").keydown(function(event) {
@@ -28,6 +46,7 @@ $(document.body).ready(() => {
 	$("#readBook").click(function() {
 		let info = $(this).data("info");
 		info.chapterid = 0;
+		$("#BackBar").data("from", "#BookInfo");
 		readBook(info);
 	});
 
@@ -36,10 +55,32 @@ $(document.body).ready(() => {
 		info.chapterid = 0;
 		addBook(info);
 	});
-	
-	$("#removeBook").click(function(){
+
+	$("#removeBook").click(function() {
 		let info = $(this).data("info");
 		removeBook(info);
+	});
+
+	$(".pageBtn").click(function() {
+		switch($(this).attr("id")) {
+			case "prev":
+				{
+					console.log("prev clicked");
+
+					console.log(level)
+				}
+				break;
+			case "next":
+				{
+					console.log("next clicked");
+				}
+				break;
+			case "menu":
+				{
+					console.log("menu clicked");
+				}
+				break;
+		}
 	});
 });
 
@@ -72,11 +113,11 @@ function createSearchlist(list) {
 					<div class="mui-media-body">
 						<div  class="bookname mui-ellipsis-2">${item.bookname}</div>
 					</div>
-					<div class="meta-info" style="margin-top: .8em;">
+					<div class="meta-info">
 						<div class="info">${item.author}</div>
 						<div class="info">${item.type}</div>
 						<div class="info">${item.state}</div>
-						<div class="info">最新章节:${item.lastchapter}</div>
+						<div class="info mui-ellipsis-2">最新章节:${item.lastchapter}</div>
 						<div class="info">更新日期:${item.lastdate}</div>
 					</div>
 				</a>
@@ -102,49 +143,54 @@ function searchListClick(p) {
 
 function createBookInfoPage(info) {
 	console.log(info);
-	$("#SearchNav,#SearchContent").hide();
-	$("#BookInfoNav,#BookInfoContent").show();
+	$(".mainPage").hide();
+	$("#BookInfo").show();
 	$("#BookInfoNav .mui-title").text(info.bookname);
 	$("#bookInfo").html(`
 		<img class="mui-media-object mui-pull-left" src="${info.img}">
 		<div class="mui-media-body">
 			<div  class="bookname mui-ellipsis-2">${info.bookname}</div>
 		</div>
-		<div class="meta-info"  style="margin-top: .8em;">
+		<div class="meta-info">
 			<div class="info">${info.author}</div>
 			<div class="info">${info.type}</div>
 			<div class="info">${info.state}</div>
-			<div class="info">最新章节:${info.lastchapter}</div>
+			<div class="info mui-ellipsis-2">最新章节:${info.lastchapter}</div>
 			<div class="info">更新日期:${info.lastdate}</div>
 		</div>
-		<div class="mui-media-body">
-			<div  class="info mui-ellipsis-2">${info.intro}</div>
+		<div class="mui-media-body" style="margin-top:1em;">
+			<div  class="info">${info.intro}</div>
 		</div>
 	`);
-	if(!localStorage[info.id]){
+	if(!localStorage[info.id]) {
 		$("#removeBook").hide();
-		$("#addBook").css("display","");
-	}else{
-		$("#removeBook").css("display","");
+		$("#addBook").css("display", "");
+	} else {
+		$("#removeBook").css("display", "");
 		$("#addBook").hide();
 	}
-	$("#BookInfoFooter").css("display", "table");
 	$("#readBook,#addBook,#removeBook").data("info", info);
 }
 
 function addBook(info) {
 	let book = localStorage[info.id];
-	if(!book){
-		localStorage.setItem(info.id,info);
-		$("#removeBook").css("display","");
+	if(!book) {
+		localStorage.setItem(info.id, info);
+		$("#removeBook").css("display", "");
 		$("#addBook").hide();
 	}
 }
+
 function removeBook(info) {
 	let book = localStorage[info.id];
-	if(book){
+	if(book) {
 		localStorage.removeItem(info.id);
 		$("#removeBook").hide();
-		$("#addBook").css("display","");
+		$("#addBook").css("display", "");
 	}
+}
+
+function readBook(info) {
+	$(".mainPage").hide();
+	$("#BookPages").show();
 }
