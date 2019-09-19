@@ -6,6 +6,11 @@ const fs = require("fs");
 
 function run(action, param, response) {
     console.log(`request msg: ${action}`);
+    response.writeHead(200, {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "Content-Type,X-Requested-With"
+    });
     switch (action) {
         case "/search": {
             searchBook(param, response)
@@ -44,7 +49,6 @@ function getBookInfo(param, response) {
             let searchEngine = new bequgew_com();
             searchEngine.getinfo(result[0], response);
         } else {
-            response.writeHead(200, { "Content-Type": "application/json" });
             response.write('{"error","book not found"}');
             response.end();
         }
@@ -69,7 +73,6 @@ function getBookContent(param, response) {
                 }
             });
         } else {
-            response.writeHead(200, { "Content-Type": "application/json" });
             response.write('{"error","book not found"}');
             response.end();
         }

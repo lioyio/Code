@@ -24,7 +24,6 @@ class BaseSearch {
         });
 
         promise.then(data => {
-            response.writeHead(200, { "Content-Type": "application/json" });
             response.write(data);
             response.end();
         });
@@ -73,7 +72,6 @@ class BaseSearch {
                     });
                 }
                 if (response !== undefined) {
-                    response.writeHead(200, { "Content-Type": "application/json" });
                     response.write(data);
                     response.end();
                 }
@@ -126,7 +124,6 @@ class BaseSearch {
         if (chapterid*1 >= info.chapterlist.length) {
             this.getinfo(info);
             if (response !== undefined) {
-                response.writeHead(200, { "Content-Type": "application/json" });
                 response.write(JSON.stringify({ "msg": "no more" }));
                 response.end();
             }
@@ -138,7 +135,6 @@ class BaseSearch {
                 if (response !== undefined) {
                     let path = `books/data/${info.id}/${chapterid}`;
                     fs.readFile(path, { encoding: "utf-8" }, (err, info) => {
-                        response.writeHead(200, { "Content-Type": "application/json" });
                         if (!err) {
                             // response.write(info);
                             response.write(JSON.stringify({ id: info.id, chapterid, content: info }));
@@ -156,7 +152,6 @@ class BaseSearch {
                 promise.then(data => {
                     console.log(`Download completed: id: ${info.id} chapter:${chapterid}`);
                     if (response !== undefined) {
-                        response.writeHead(200, { "Content-Type": "application/json" });
                         response.write(data);
                         response.end();
                     }

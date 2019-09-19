@@ -39,7 +39,7 @@ class SearchEngine extends BaseSearch {
                             book.url = $('a', booktd[0]).attr("href");
                             book.lastchapter = $('a', booktd[1]).text();
                             book.author = $(booktd[2]).text();
-                            book.lastdate = $(booktd[4]).text();
+                            // book.lastdate = $(booktd[4]).text();
                             book.state = $(booktd[5]).text();
                             books.push(book);
                         }
@@ -58,6 +58,8 @@ class SearchEngine extends BaseSearch {
                                     let content = $('.content');
                                     books[index].img = $(".img img", content).attr("src");
                                     books[index].intro = $("#intro", content).text();
+                                    books[index].type = $($(".info p")[0]).text().split("所属类型：")[1];
+                                    books[index].lastdate = $(".info .s").text().split("更新时间：")[1];
                                     resolve();
                                     // console.log(books[index]);
                                 } else {
@@ -75,7 +77,7 @@ class SearchEngine extends BaseSearch {
                                 let sqlstr = `select * from book where bookname="${val.bookname}" and author="${val.author}"`;
                                 SQL.all(sqlstr, result => {
                                     if (result.length === 0) {
-                                        insertArr.push([val.bookname, val.author, val.url, val.lastdate, val.lastchapter, val.state, val.img, val.intro]);
+                                        insertArr.push([val.bookname, val.author, val.url, val.lastdate, val.lastchapter, val.type, val.state, val.img, val.intro]);
                                     } else {
                                         if (result[0].lastchapter !== val.lastchapter
                                             || result[0].lastdate !== val.lastdate
@@ -89,7 +91,7 @@ class SearchEngine extends BaseSearch {
                         });
                         Promise.all(promiseArr).then(data => {
                             if (insertArr.length !== 0) {
-                                let insertstr = `insert into book (bookname,author,url,lastdate,lastchapter,state,img,intro) values(?,?,?,?,?,?,?,?)`;
+                                let insertstr = `insert into book (bookname,author,url,lastdate,lastchapter,type,state,img,intro) values(?,?,?,?,?,?,?,?,?)`;
                                 SQL.run(insertstr, insertArr);
                             }
                             if (updateArr.length !== 0) {

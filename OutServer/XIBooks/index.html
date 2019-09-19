@@ -10,52 +10,68 @@
 		<script src="js/net.js"></script>
 		<script src="js/main.js"></script>
 		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
 		<script type="text/javascript" charset="utf-8">
 			mui.init();
 			//    	plus.navigator.setFullscreen(true);
 			plus.navigator.setStatusBarBackground('#D74B28');
 		</script>
-		<style>
-			.mui-bar-nav {
-				background: #D74B28;
-			}
-			
-			header .mui-title {
-				color: white;
-			}
-			
-			#searchBtn,
-			#backBtn {
-				color: white;
-				font-weight: bolder;
-			}
-			#SearchContent,#SearchNav{
-				display: none;
-			}
-		</style>
 	</head>
 
 	<body>
+		<div id="mask" class="mui-popup-backdrop mui-active">
+			<a class="mui-spinner mui-spinner-white"></a>
+		</div>
+
 		<header id="BookNav" class="mui-bar mui-bar-nav">
 			<h1 class="mui-title">XIBooks</h1>
 			<a id="searchBtn" class="mui-icon mui-icon-search mui-pull-right"></a>
 		</header>
+		<div id="BookContent" class="mui-content">
+			<div class="mui-content-padded" style="margin: 5px;">
+			</div>
+		</div>
+
 		<header id="SearchNav" class="mui-bar mui-bar-nav">
 			<h1 class="mui-title">搜索</h1>
-			<a id="backBtn" class="mui-icon mui-icon-back"></a>
+			<a class="backBtn mui-icon mui-icon-back"></a>
 		</header>
 		<div id="SearchContent" class="mui-content">
 			<div class="mui-content-padded" style="margin: 5px;">
 				<div class="mui-input-row mui-search">
 					<input id="searchInput" type="search" class="mui-input-clear" placeholder="搜索书名或作者名">
 				</div>
+				<div id="searchList">
+					<div class="mui-scroll">
+						<ul class="mui-table-view">
+
+						</ul>
+					</div>
+				</div>
 			</div>
 		</div>
-		<div id="BookContent" class="mui-content">
+
+		<header id="BookInfoNav" class="mui-bar mui-bar-nav">
+			<h1 class="mui-title"></h1>
+			<a class="backBtn mui-icon mui-icon-back"></a>
+		</header>
+		<div id="BookInfoContent" class="mui-content">
 			<div class="mui-content-padded" style="margin: 5px;">
+				<div id="bookInfo">
+
+				</div>
 			</div>
 		</div>
-		<footer></footer>
+
+		<footer id="BookInfoFooter">
+			<a href="#" id="removeBook" class="mui-btn mui-btn-red mui-btn-outlined">移出书架</a>
+			<a href="#" id="addBook" class="mui-btn mui-btn-blue mui-btn-outlined">加入书架</a>
+			<a href="#" id="readBook" class="mui-btn mui-btn-red">开始阅读</a>
+		</footer>
+		
+		<div id="bookPages">
+			
+		</div>
 
 	</body>
 

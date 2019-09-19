@@ -32,8 +32,8 @@ class SQL {
     }
 }
 /*
-CREATE TABLE book(id INTEGER PRIMARY KEY AUTOINCREMENT,bookname TEXT NOT NULL,author TEXT NOT NULL,url TEXT NOT NULL,lastdate TEXT,lastchapter TEXT,state TEXT,img TEXT,intro TEXT);
-insert into book (bookname,author,url,lastdate,lastchapter,state,img,intro) values("name","author","http://111","today","chapter1","1","http://img","intro")
+CREATE TABLE book(id INTEGER PRIMARY KEY AUTOINCREMENT,bookname TEXT NOT NULL,author TEXT NOT NULL,url TEXT NOT NULL,lastdate TEXT,lastchapter TEXT,type TEXT,state TEXT,img TEXT,intro TEXT);
+insert into book (bookname,author,url,lastdate,lastchapter,type,state,img,intro) values("name","author","http://111","today","chapter1","1","1","http://img","intro")
 select * from book where bookname="a" and author="c"
 */
 
