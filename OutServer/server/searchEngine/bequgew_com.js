@@ -4,7 +4,8 @@ const request = require('request');
 const BaseSearch = require("./basesearch");
 const cheerio = require("cheerio");
 const SQL = require("../sql");
-const iconv = require('iconv-lite')
+const fs = require("fs");
+
 const headers = {
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.65 Safari/537.36'
 }
@@ -73,7 +74,6 @@ class SearchEngine extends BaseSearch {
                             promiseArr.push(new Promise((resolve, reject) => {
                                 let sqlstr = `select * from book where bookname="${val.bookname}" and author="${val.author}"`;
                                 SQL.all(sqlstr, result => {
-                                    console.log(result.length)
                                     if (result.length === 0) {
                                         insertArr.push([val.bookname, val.author, val.url, val.lastdate, val.lastchapter, val.state, val.img, val.intro]);
                                     } else {
@@ -136,6 +136,35 @@ class SearchEngine extends BaseSearch {
             } else {
                 resolve("err");
             }
+        });
+    }
+    parseGetContent(resolve, reject, info, chapterid) {
+        // console.log(`parseGetContent `);
+        let options = {
+            url: `https://www.bequgew.com${info.chapterlist[chapterid].url}`,
+            headers,
+            gzip: true
+        }
+        // console.log(options);
+        let path = `books/data/${info.id}`;
+        fs.mkdir(path, err => {
+            request(options, (error, response, body) => {
+                if (!error && response.statusCode == 200) {
+                    // console.log(body);
+                    let $ = cheerio.load(body, { decodeEntities: false });
+                    let content = $("#book_text").text().replace(/\s+/g, "\n\t");
+                    path = `${path}/${chapterid}`;
+                    fs.writeFile(path, content, err => {
+                        if (err) {
+                            console.log(err);
+                        }
+                    });
+                    resolve(JSON.stringify({ id: info.id, chapter: chapterid, content }));
+                    // console.log(books[index]);
+                } else {
+                    resolve("err");
+                }
+            });
         });
     }
 }

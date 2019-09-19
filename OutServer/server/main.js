@@ -2,6 +2,7 @@
 
 const bequgew_com = require("./searchEngine/bequgew_com");
 const SQL = require("./sql");
+const fs = require("fs");
 
 function run(action, param, response) {
     console.log(`request msg: ${action}`);
@@ -12,6 +13,10 @@ function run(action, param, response) {
             break;
         case "/getinfo": {
             getBookInfo(param, response);
+        }
+            break;
+        case "/getcontent": {
+            getBookContent(param, response);
         }
             break;
         default:
@@ -25,14 +30,8 @@ function searchBook(param, response) {
     let bookname = param.bk;
     let sqlstr = `select * from book where bookname="${bookname}"`;
     SQL.all(sqlstr, result => {
-        // if (result.length === 0) {
         let searchEngine = new bequgew_com();
         searchEngine.search(bookname, response);
-        // } else {
-        //     response.writeHead(200, {"Content-Type": "application/json"});
-        //     response.write(JSON.stringify(result));
-        //     response.end();
-        // }
     });
 }
 
@@ -51,5 +50,31 @@ function getBookInfo(param, response) {
         }
     });
 }
+
+function getBookContent(param, response) {
+    let id = param.id;
+    let chapter = param.cp;
+    console.log(`getBookContent id:${id} chapter:${chapter}`)
+    let path = `books/info/${id}`;
+    let searchEngine = new bequgew_com();
+
+    fs.exists(path, exists => {
+        if (exists) {
+            // let info = fs.readFileSync(path, { encoding: "utf-8" });
+            fs.readFile(path, { encoding: "utf-8" }, (err, info) => {
+                if (!err) {
+                    info = JSON.parse(info);
+                    searchEngine.getContent(info, chapter, response);
+                    // searchEngine.getContentAll(info);
+                }
+            });
+        } else {
+            response.writeHead(200, { "Content-Type": "application/json" });
+            response.write('{"error","book not found"}');
+            response.end();
+        }
+    });
+}
+
 
 module.exports = run;
