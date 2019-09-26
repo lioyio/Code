@@ -9,12 +9,15 @@
 		<script src="js/jquery-1.11.0.js"></script>
 		<script src="js/net.js"></script>
 		<script src="js/main.js"></script>
+		<script src="js/page.js"></script>
 		<link href="css/mui.min.css" rel="stylesheet" />
 		<link rel="stylesheet" type="text/css" href="css/main.css" />
 		<script type="text/javascript" charset="utf-8">
 			mui.init();
 			//    	plus.navigator.setFullscreen(true);
-			plus.navigator.setStatusBarBackground('#D74B28');
+			if(window.plus) {
+				plus.navigator.setStatusBarBackground('#D74B28');
+			}
 		</script>
 	</head>
 
@@ -23,14 +26,14 @@
 			<a class="mui-spinner mui-spinner-white"></a>
 		</div>
 		<div class="mainPage" id="Book">
-			<header id="BookNav" class="mui-bar mui-bar-nav">
+			<!--<header id="BookNav" class="mui-bar mui-bar-nav">
 				<h1 class="mui-title">XIBooks</h1>
 				<a id="searchBtn" class="mui-icon mui-icon-search mui-pull-right"></a>
 			</header>
 			<div id="BookContent" class="mui-content">
 				<div class="mui-content-padded" style="margin: 5px;">
 				</div>
-			</div>
+			</div>-->
 		</div>
 
 		<div class="mainPage" id="Search">
@@ -74,16 +77,6 @@
 		</div>
 
 		<div class="mainPage" id="BookPages">
-			<div id="BackBar" class="mui-bar mui-bar-nav">
-				<a class="backBtn mui-icon mui-icon-back"></a>
-			</div>
-			<div id="Content">
-				<div id="Page"></div>
-				<div class="pageBtn" id="prev"></div>
-				<div class="pageBtn" id="next"></div>
-				<div class="pageBtn" id="menu"></div>
-			</div>
-			<div id="ToolBar" class="mui-bar mui-bar-nav"></div>
 		</div>
 
 	</body>
