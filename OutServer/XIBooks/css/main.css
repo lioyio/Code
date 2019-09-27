@@ -1,4 +1,6 @@
-html,body,.mainPage{
+html,
+body,
+.mainPage {
 	width: 100%;
 	height: 100%;
 	margin: 0;
@@ -47,6 +49,7 @@ li {
 
 .info {
 	font-size: small;
+	white-space: nowrap !important;
 }
 
 img {
@@ -63,78 +66,13 @@ img {
 	position: absolute;
 	bottom: 0;
 	left: 50%;
-	transform: translate(-50%,0);
+	transform: translate(-50%, 0);
 	display: table;
 }
-#BookInfoFooter a{
+
+#BookInfoFooter a {
 	margin: 5px;
 	font-size: larger;
-}
-#BookPages .mui-bar-nav{
-	background: rgba(0,0,0,.5);
-}
-
-#Content{
-	position: relative;
-    width: 100%;
-    height: 100%;
-	overflow: hidden;
-	font-size: 14px;
-}
-.PageCover{
-	position: absolute;
-    top: 2em;
-    bottom: 2em;
-    overflow: hidden;
-}
-#Page{
-    line-height: 1.5;
-    font-size: 20px;
-    /*margin-top: -300px;*/
-    height: 100%;
-}
-#BackBar,#ToolBar{
-	display: none;
-}
-#ToolBar{
-	position: absolute;
-    top: 100%;
-    transform: translate(0, -100%);
-}
-#prev{
-	position: absolute;
-	width: 50%;
-	height: 100%;
-	top: 0;
-	left: 0;
-}
-#next{
-	position: absolute;
-	width: 50%;
-	height: 100%;
-	top: 0;
-	right: 0;
-}
-#menu{
-	position: absolute;
-	width: 50%;
-	height: 50%;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%,-50%);
-}
-#prevPage,#Page,#nextPage{
-	float: left;
-    padding-left: 1em;
-    padding-right: 1em;
-}
-#prevPage{
-	margin-left: -100%;
-}
-#Page{
-	left: 0;
-}
-#nextPage{
 }
 .battery {
 	height: 6px;
