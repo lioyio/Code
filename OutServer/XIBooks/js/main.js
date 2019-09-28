@@ -1,14 +1,14 @@
 let dev;
 let page;
 $(document.body).ready(() => {
-	if(window.plus && plus.ios) {
+	if (window.plus && plus.ios) {
 		let UIDevice = plus.ios.import("UIDevice");
 		dev = UIDevice.currentDevice();
-		if(!dev.isBatteryMonitoringEnabled()) {
+		if (!dev.isBatteryMonitoringEnabled()) {
 			dev.setBatteryMonitoringEnabled(true);
 		}
 		let level = dev.batteryLevel();
-	}else if(window.navigator.getBattery){
+	} else if (window.navigator.getBattery) {
 		dev = navigator.getBattery();
 	}
 	page = new Page("#BookPages", nextChapter, prevChapter);
@@ -18,8 +18,8 @@ $(document.body).ready(() => {
 		$(".mainPage").hide();
 		$("#Search").show();
 	});
-	$(".backBtn").click(function() {
-		switch($(this).parent().attr("id")) {
+	$(".backBtn").click(function () {
+		switch ($(this).parent().attr("id")) {
 			case "SearchNav":
 				{
 					$(".mainPage").hide();
@@ -36,8 +36,8 @@ $(document.body).ready(() => {
 				break;
 		}
 	});
-	$("#searchInput").keydown(function(event) {
-		switch(event.keyCode) {
+	$("#searchInput").keydown(function (event) {
+		switch (event.keyCode) {
 			case 13:
 				{
 					search($(this).val());
@@ -46,47 +46,47 @@ $(document.body).ready(() => {
 				break;
 		}
 	});
-	$("#readBook").click(function() {
+	$("#readBook").click(function () {
 		let info = $(this).data("info");
-		if(info.chapterid === undefined){
+		if (info.chapterid === undefined) {
 			info.chapterid = 0;
 		}
-		if(info.curNum === undefined){
+		if (info.curNum === undefined) {
 			info.curNum = 0;
 		}
 		$("#BackBar").data("from", "#BookInfo");
 		readBook(info);
 	});
 
-	$("#addBook").click(function() {
+	$("#addBook").click(function () {
 		let info = $(this).data("info");
-		if(info.chapterid === undefined){
+		if (info.chapterid === undefined) {
 			info.chapterid = 0;
 		}
-		if(info.curNum === undefined){
+		if (info.curNum === undefined) {
 			info.curNum = 0;
 		}
 		addBook(info);
 	});
 
-	$("#removeBook").click(function() {
+	$("#removeBook").click(function () {
 		let info = $(this).data("info");
 		removeBook(info.id);
 	});
 
-	$(document)[0].addEventListener("tap", function() {
+	$(document)[0].addEventListener("tap", function () {
 		// console.log("点击")
 		$(".bookRemove").hide();
 	});
 });
 
 function search(str) {
-	if(str === "") {
+	if (str === "") {
 		return;
 	}
 	let net = new Net();
 	net.require(`search?bk=${str}`, (err, result) => {
-		if(!err) {
+		if (!err) {
 			//				console.log(JSON.stringify(result));
 			createSearchlist(result);
 		} else {
@@ -99,7 +99,7 @@ function createSearchlist(list) {
 	let searchList = $("#searchList");
 	searchList.empty();
 
-	if(list.error) {
+	if (list.error) {
 
 	} else {
 		list.forEach((item, index, arr) => {
@@ -129,7 +129,7 @@ function searchListClick(p) {
 	let net = new Net();
 	let info = $(p).parent().data("info");
 	net.require(`getinfo?bk=${info.bookname}&at=${info.author}`, (err, result) => {
-		if(!err) {
+		if (!err) {
 			createBookInfoPage(result);
 		} else {
 			mui.toast('获取失败');
@@ -157,7 +157,7 @@ function createBookInfoPage(info) {
 			<div style="font-size:small;">${info.intro}</div>
 		</div>
 	`);
-	if(!localStorage[info.id]) {
+	if (!localStorage[info.id]) {
 		$("#removeBook").hide();
 		$("#addBook").css("display", "");
 	} else {
@@ -169,7 +169,7 @@ function createBookInfoPage(info) {
 
 function addBook(info) {
 	let book = localStorage[info.id];
-	if(!book) {
+	if (!book) {
 		localStorage.setItem(info.id, JSON.stringify(info));
 		$("#removeBook").css("display", "");
 		$("#addBook").hide();
@@ -179,7 +179,7 @@ function addBook(info) {
 
 function removeBook(id) {
 	let book = localStorage[id];
-	if(book) {
+	if (book) {
 		localStorage.removeItem(id);
 		$("#removeBook").hide();
 		$("#addBook").css("display", "");
@@ -190,11 +190,11 @@ function removeBook(id) {
 function readBook(info) {
 	$(".mainPage").hide();
 	$("#BookPages").show();
-	if(window.plus) {
+	if (window.plus) {
 		plus.navigator.setFullscreen(true);
 	}
 	let storage = localStorage.getItem(info.id);
-	if(storage) {
+	if (storage) {
 		info = JSON.parse(storage);
 	}
 	page.createCatalogue(info);
@@ -204,15 +204,15 @@ function readBook(info) {
 function openChapter(info, curNum) {
 	//	$("#BookPages").data("info", info);
 	let net = new Net();
-	if(curNum === undefined) {
+	if (curNum === undefined) {
 		curNum = info.curNum * 1;
 	}
 	net.require(`getcontent?id=${info.id}&cp=${info.chapterid}`, (err, result) => {
-		if(!err) {
-			page.show(info.bookname,info.chapterlist[info.chapterid].name, result.content, curNum);
+		if (!err) {
+			page.show(info.bookname, info.chapterlist[info.chapterid].name, result.content, curNum);
 		} else {
 			mui.toast('没有更新的了');
-			if(info.chapterid !== 0) {
+			if (info.chapterid !== 0) {
 				info.chapterid -= 1;
 			}
 		}
@@ -221,7 +221,7 @@ function openChapter(info, curNum) {
 
 function prevChapter(info) {
 	//	let info = $("#BookPages").data("info");
-	if(info.chapterid === 0) {
+	if (info.chapterid === 0) {
 		mui.toast('这是第一章');
 		return;
 	}
@@ -230,19 +230,46 @@ function prevChapter(info) {
 }
 
 function nextChapter(info, chapter) {
-	if(chapter) {
+	if (chapter !== undefined && chapter !== "end") {
 		info.chapterid = chapter;
 		openChapter(info, 0);
+		return;
+	} else if(chapter === "end"){
+		if (info.chapterid >= info.chapterlist.length - 1) {
+			mui.toast('没有更多了');
+			return;
+		}
 	} else {
-		info.chapterid += 1;
-		openChapter(info, 0);
+		if (info.chapterid >= info.chapterlist.length - 1) {
+			let net = new Net();
+			net.require(`search?bk=${info.bookname}`, (err, result) => {
+				if (!err) {
+					net.require(`getinfo?bk=${info.bookname}&at=${info.author}`, (err, result) => {
+						if (!err) {
+							info.chapterlist = result.chapterlist;
+							info.lastchapter = result.lastchapter;
+							info.lastdate = result.lastdate;
+							nextChapter(info, "end");
+						} else {
+							mui.toast('获取失败');
+						}
+					});
+				} else {
+					mui.toast('搜索失败');
+				}
+			});
+			
+			return;
+		}
 	}
-
+	info.chapterid += 1;
+	openChapter(info, 0);
+	localStorage.setItem(info.id, JSON.stringify(info));
 }
 
 function refreshBook() {
 	$("#BookContent .mui-content-padded").empty();
-	for(let i = 0; i < localStorage.length; ++i) {
+	for (let i = 0; i < localStorage.length; ++i) {
 		let id = localStorage.key(i);
 		let info = localStorage.getItem(id);
 		info = JSON.parse(info);
@@ -277,15 +304,15 @@ function refreshBook() {
 				    display:none;
 				" >X</a>
 			</div>`);
-		book[0].addEventListener("longtap", function() {
+		book[0].addEventListener("longtap", function () {
 			console.log("你正在长按");
 			$(".bookRemove").show();
 			$(".bookRemove").data("status", "show");
 		});
-		$(".bookRemove", book)[0].addEventListener("tap", ()=>{
+		$(".bookRemove", book)[0].addEventListener("tap", () => {
 			removeBook(id);
 		});
-		$(".bookRead", book)[0].addEventListener("tap", ()=>{
+		$(".bookRead", book)[0].addEventListener("tap", () => {
 			openOldBook(id);
 		});
 		$("#BookContent .mui-content-padded").append(book);
@@ -293,7 +320,7 @@ function refreshBook() {
 }
 
 function openOldBook(id) {
-	if($(".bookRemove").data("status") === "show") {
+	if ($(".bookRemove").data("status") === "show") {
 		return;
 	}
 	let info = localStorage.getItem(id);
