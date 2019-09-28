@@ -4,6 +4,7 @@ class Page {
 	constructor(parent, nextChapter, prevChapter) {
 		this.parent = parent;
 
+		this.moving = 0;
 		this.fontSize = 0;
 		this.lineHeight = 1.5;
 
@@ -12,22 +13,65 @@ class Page {
 		this.height = 0;
 		this.pageNum = 0;
 		this.curNum = 0;
-		this.nextChapter = nextChapter || function() {};
-		this.prevChapter = prevChapter || function() {};
+		this.nextChapter = nextChapter || function () { };
+		this.prevChapter = prevChapter || function () { };
 		this.bmenuShow = false;
 		this.info = null;
 
 		this.create();
 	}
 	create() {
+		/*
+		 * <div id="PageCover">
+					<div id="Page"></div>
+				</div>
+		 */
+		$(this.parent).css({
+			position: "relative",
+			background: "rgb(210,229,210)",
+			overflowX: "hidden"
+		});
 		$(this.parent).html(`
 			<div id="BackBar" class="mui-bar mui-bar-nav">
 				<a class="backBtn mui-icon mui-icon-back"></a>
 				<a id="catalogueBtn" class="mui-icon mui-icon-bars mui-pull-right" style="color:white;font-weight: bolder;"></a>
 			</div>
 			<div id="Content">
-				<div id="PageCover">
-					<div id="Page"></div>
+				<div class="Page prev">
+					<div class="Title">
+						<div class="name1"></div>
+						<div class="name2"></div>
+					</div>
+					<div class="PageCover">
+						<div class="Text"></div>
+					</div>
+					<div class="Process"></div>
+					<div class="Battery"></div>
+					<div class="Time">00:00</div>
+				</div>
+				<div class="Page now">
+					<div class="Title">
+						<div class="name1"></div>
+						<div class="name2"></div>
+					</div>
+					<div class="PageCover">
+						<div class="Text"></div>
+					</div>
+					<div class="Process"></div>
+					<div class="Battery"></div>
+					<div class="Time">00:00</div>
+				</div>
+				<div class="Page next">
+					<div class="Title">
+						<div class="name1"></div>
+						<div class="name2"></div>
+					</div>
+					<div class="PageCover">
+						<div class="Text"></div>
+					</div>
+					<div class="Process"></div>
+					<div class="Battery"></div>
+					<div class="Time">00:00</div>
 				</div>
 				<div class="pageBtn" id="prev"></div>
 				<div class="pageBtn" id="next"></div>
@@ -47,99 +91,80 @@ class Page {
 				</div>
 			</div>
 		`);
-		$("#Catalogue").css({
-			position: "absolute",
-			width: "100%",
-			height: "100%",
-			display: "none",
-			background: "white",
-			top: "44px"
+		setInterval(()=>{
+			$(".Time").text(new Date().toTimeString().substr(0,5));
+		},60*1000);
+		$(".Page", this.parent).on("transitionend", event => {
+			--this.moving;
+			if ($(event.currentTarget).hasClass("next")) {
+				$(event.currentTarget).css("z-index", "");
+				$("#prev.pageBtn", this.parent).before($(event.currentTarget));
+				$(".Page.next .Text").css({
+					"margin-top": (this.curNum + 1) * this.height * -1 + "px"
+				});
+				$(".Page.next .Process").text(`${this.curNum+2}/${this.pageNum}`);
+			}
+			if ($(event.currentTarget).hasClass("prev")) {
+				$(event.currentTarget).css("z-index", "");
+				$("#Content", this.parent).prepend($(event.currentTarget));
+				$(".Page.prev .Text").css({
+					"margin-top": (this.curNum - 1) * this.height * -1 + "px"
+				});
+				$(".Page.prev .Process").text(`${this.curNum}/${this.pageNum}`);
+			}
+			if(dev.constructor == Promise){
+				navigator.getBattery().then(data=>{
+					$(".Battery").css("background-size", data.level * 90 + "% 8px");
+				});
+			} else{
+				$(".Battery").css("background-size", dev.batteryLevel() * 90 + "% 8px");
+			}
 		});
-		$("#BackBar,#ToolBar").css({
-			display: "none"
-		});
-		$("#Content").css({
-			"position": "relative",
-			"width": "100%",
-			"height": "100%"
-		});
-		$("#PageCover").css({
-			position: "absolute",
-			overflow: "hidden",
-			top: "1em",
-			bottom: "1em"
-		});
-		$("#Page").css({
-			"margin-left": "1em",
-			"margin-right": "1em"
-		});
-		$("#ToolBar").css({
-			position: "absolute",
-			top: "100%",
-			transform: "translate(0,-100%)"
-		});
-		$("#prev").css({
-			position: "absolute",
-			width: "50%",
-			height: "100%",
-			top: "0",
-			left: "0"
-		});
-		$("#next").css({
-			position: "absolute",
-			width: "50%",
-			height: "100%",
-			top: "0",
-			right: "0"
-		});
-		$("#menu").css({
-			position: "absolute",
-			width: "30%",
-			height: "50%",
-			top: "50%",
-			left: "50%",
-			transform: "translate(-50%, -50%)"
-		})
-		$(".mui-bar-nav", this.parent).css({
-			background: "rgba(0,0,0,.5)"
-		});
-		$(".mui-bar-nav", "#Catalogue").css({
-			background: "#D74B28"
-		});
-		$("#prev")[0].addEventListener("tap",() => {
-			if(this.bmenuShow) {
+
+		$("#prev")[0].addEventListener("tap", () => {
+			if (this.bmenuShow) {
 				this.bmenuShow = false;
 				$("#BackBar,#ToolBar").hide();
 				return;
 			}
-			if(this.curNum === 0) {
+			if (this.curNum === 0) {
 				this.prevChapter(this.info);
 				return;
 			}
+			if (this.moving != 0) {
+				return;
+			}
+			this.moving = 6;
 			this.curNum -= 1;
 			this.info.curNum = this.curNum;
-			$("#Page").css({
-				"margin-top": this.curNum * this.height * -1 + "px"
-			});
+			let prev = $(".prev").removeClass("prev");
+			$(".next").addClass("prev").removeClass("next").css("z-index", "-1");;
+			$(".now").addClass("next").removeClass("now");
+			prev.addClass("now");
 		});
-		$("#next")[0].addEventListener("tap",() => {
-			if(this.bmenuShow) {
+		$("#next")[0].addEventListener("tap", () => {
+			if (this.bmenuShow) {
 				this.bmenuShow = false;
 				$("#BackBar,#ToolBar").hide();
 				return;
 			}
-			if(this.curNum === this.pageNum - 1) {
+			if (this.curNum === this.pageNum - 1) {
 				this.nextChapter(this.info);
 				return;
 			}
+			if (this.moving != 0) {
+				return;
+			}
+			this.moving = 6;
 			this.curNum += 1;
 			this.info.curNum = this.curNum;
-			$("#Page").css({
-				"margin-top": this.curNum * this.height * -1 + "px"
-			});
+			let next = $(".next").removeClass("next");
+			$(".prev").addClass("next").removeClass("prev").css("z-index", "-1");
+			$(".now").addClass("prev").removeClass("now");
+			next.addClass("now");
 		});
-		$("#menu")[0].addEventListener("tap",() => {
-			if(this.bmenuShow) {
+		$("#menu")[0].addEventListener("tap", () => {
+			if (this.bmenuShow) {
 				this.bmenuShow = false;
 				$("#BackBar,#ToolBar").hide();
 			} else {
@@ -149,10 +174,10 @@ class Page {
 		});
 		$("#BackBar .backBtn").click(() => {
 			let storage = localStorage.getItem(this.info.id);
-			if(!storage) {
-				var btnArray = ['·ñ', 'ÊÇ'];
-				mui.confirm(this.info.bookname, 'ÊÇ·ñ¼ÓÈëÊé¼Ü£¿', btnArray, e=> {
-					if(e.index == 1) {
+			if (!storage) {
+				var btnArray = ['å¦', 'æ˜¯'];
+				mui.confirm(this.info.bookname, 'æ˜¯å¦åŠ å…¥ä¹¦æž¶ï¼Ÿ', btnArray, e => {
+					if (e.index == 1) {
 						addBook(this.info);
 					}
 				})
@@ -162,8 +187,8 @@ class Page {
 			$("#menu").trigger("tap");
 			$(".mainPage").hide();
 			$($("#BackBar").data("from")).show();
-			$("#Page").html("");
-			if(window.plus) {
+			$(".Page .Text").html("");
+			if (window.plus) {
 				plus.navigator.setFullscreen(false);
 			}
 		});
@@ -181,31 +206,51 @@ class Page {
 		this.lineHeight = lineHeight;
 		this.rowHeight = fontSize * lineHeight;
 
-		$("#Page").css({
+		$(".Page .Text").css({
 			fontSize,
 			lineHeight,
-			"margin-top": "0px"
+			"margin-top": "0px",
+			height: "unset"
 		});
-		$("#PageCover").css({
+		$(".PageCover").css({
 			bottom: "1em",
 			height: "unset"
 		});
 
-		this.rowNum = parseInt($("#PageCover").css("height").split("px")[0] * 1 / this.rowHeight);
+		this.rowNum = parseInt($(".PageCover").css("height").split("px")[0] * 1 / this.rowHeight);
 		this.height = this.rowNum * this.rowHeight;
-		this.pageNum = Math.ceil($("#Page").css("height").split("px")[0] * 1 / this.height);
+		this.pageNum = Math.ceil($(".Page .Text").css("height").split("px")[0] * 1 / this.height);
 		this.curNum = curNum;
-		if(curNum == -1) {
+		if (curNum == -1) {
 			this.curNum = this.pageNum - 1;
 		}
 		this.info.curNum = this.curNum;
-		$("#PageCover").css({
+		$(".PageCover").css({
 			height: this.height + "px"
 		});
-		$("#Page").css({
+		$(".Page .Text").css({
+			height: this.height * this.pageNum + "px"
+		});
+		$(".Page.now .Text").css({
 			"margin-top": this.curNum * this.height * -1 + "px"
 		});
-
+		$(".Page.prev .Text").css({
+			"margin-top": (this.curNum - 1) * this.height * -1 + "px"
+		});
+		$(".Page.next .Text").css({
+			"margin-top": (this.curNum + 1) * this.height * -1 + "px"
+		});
+		$(".Page.now .Process").text(`${this.curNum+1}/${this.pageNum}`);
+		$(".Page.prev .Process").text(`${this.curNum}/${this.pageNum}`);
+		$(".Page.next .Process").text(`${this.curNum+2}/${this.pageNum}`);
+		$(".Time").text(new Date().toTimeString().substr(0,5));
+		if(dev.constructor == Promise){
+			navigator.getBattery().then(data=>{
+				$(".Battery").css("background-size", data.level * 90 + "% 8px");
+			});
+		} else{
+			$(".Battery").css("background-size", dev.batteryLevel() * 90 + "% 8px");
+		}
 	}
 	createCatalogue(info) {
 		this.info = info;
@@ -222,14 +267,22 @@ class Page {
 				`);
 		});
 		let p = this;
-		$("#Cataloguelist a").click(function(){
-			catalogueListClick(p.info, $(this).attr("chapter")*1);
+		$("#Cataloguelist a").click(function () {
+			catalogueListClick(p.info, $(this).attr("chapter") * 1);
 		});
 	}
-	show(title, text, curNum) {
+	show(bookname,title, text, curNum) {
+		$(".Title .name1").text(bookname);
+		$(".Title .name2").text(title);
 		text = text.replace(/\n+/g, "<br>").replace(/[	]/g, "&nbsp;&nbsp;&nbsp;&nbsp;");
-		$("#Page").html(text);
-		this.resize(20, 1.5, curNum);
+		$(".Page .Text").html(text);
+		this.resize(22, 1.5, curNum);
+	}
+	changeTheme(background, color) {
+		$(this.parent, ".Page .Text").css({
+			background,
+			color
+		});
 	}
 }
 

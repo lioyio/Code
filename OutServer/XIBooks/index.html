@@ -11,7 +11,8 @@
 		<script src="js/main.js"></script>
 		<script src="js/page.js"></script>
 		<link href="css/mui.min.css" rel="stylesheet" />
-		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<link href="css/main.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/page.css">
 		<script type="text/javascript" charset="utf-8">
 			mui.init({
 				gestureConfig: {
@@ -21,6 +22,7 @@
 			//    	plus.navigator.setFullscreen(true);
 			if(window.plus) {
 				plus.navigator.setStatusBarBackground('#D74B28');
+				plus.screen.lockOrientation("portrait-primary");
 			}
 		</script>
 	</head>

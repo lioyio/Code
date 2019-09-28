@@ -74,26 +74,3 @@ img {
 	margin: 5px;
 	font-size: larger;
 }
-.battery {
-	height: 6px;
-	width: 15px;
-	border: 1.5px solid gray;
-	position: relative;
-	background-repeat: no-repeat;
-	background-image: linear-gradient(to right, gray, gray);
-	background-size: 30% 100%;
-	/* animation: change 3s steps(8) infinite; */
-}
-
-
-.battery::after {
-	content: '';
-	height: 2px;
-	width: .1px;
-	background-color: gray;
-	border: 1px solid gray;
-	position: absolute;
-	top: 1px;
-	right: -2.5px;
-	border-radius: 0 .2px .2px 0;
-}

@@ -8,6 +8,8 @@ $(document.body).ready(() => {
 			dev.setBatteryMonitoringEnabled(true);
 		}
 		let level = dev.batteryLevel();
+	}else if(window.navigator.getBattery){
+		dev = navigator.getBattery();
 	}
 	page = new Page("#BookPages", nextChapter, prevChapter);
 	refreshBook();
@@ -46,15 +48,24 @@ $(document.body).ready(() => {
 	});
 	$("#readBook").click(function() {
 		let info = $(this).data("info");
-		info.chapterid = 0;
-		info.curNum = 0;
+		if(info.chapterid === undefined){
+			info.chapterid = 0;
+		}
+		if(info.curNum === undefined){
+			info.curNum = 0;
+		}
 		$("#BackBar").data("from", "#BookInfo");
 		readBook(info);
 	});
 
 	$("#addBook").click(function() {
 		let info = $(this).data("info");
-		info.chapterid = 0;
+		if(info.chapterid === undefined){
+			info.chapterid = 0;
+		}
+		if(info.curNum === undefined){
+			info.curNum = 0;
+		}
 		addBook(info);
 	});
 
@@ -64,7 +75,7 @@ $(document.body).ready(() => {
 	});
 
 	$(document)[0].addEventListener("tap", function() {
-		console.log("点击")
+		// console.log("点击")
 		$(".bookRemove").hide();
 	});
 });
@@ -194,11 +205,11 @@ function openChapter(info, curNum) {
 	//	$("#BookPages").data("info", info);
 	let net = new Net();
 	if(curNum === undefined) {
-		curNum = info.curNum;
+		curNum = info.curNum * 1;
 	}
 	net.require(`getcontent?id=${info.id}&cp=${info.chapterid}`, (err, result) => {
 		if(!err) {
-			page.show(info.chapterlist[info.chapterid].name, result.content, curNum);
+			page.show(info.bookname,info.chapterlist[info.chapterid].name, result.content, curNum);
 		} else {
 			mui.toast('没有更新的了');
 			if(info.chapterid !== 0) {
