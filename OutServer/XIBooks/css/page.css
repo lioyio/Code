@@ -51,13 +51,20 @@
     left: 50%;
     transform: translate(-50%, -50%)
 }
+#BookPages{
+    background: rgb(253,246,227);
+    color:gray;
+}
 #BookPages .mui-bar-nav{
     background: rgba(0,0,0,.5)
 }
 #Catalogue .mui-bar-nav{
     background: #D74B28
 }
-
+#Cataloguelist li.select{
+    background: #D74B28;
+    color:white;
+}
 .Page {
     position: absolute;
     top: 0;
@@ -85,7 +92,7 @@
 
 .Text {
     position: relative;
-    background: rgb(210,229,210);
+    background: rgb(253,246,227);
     word-break: break-all;
     margin-left: 1em;
     margin-right: 1em
@@ -151,4 +158,25 @@
 .Title .name2{
 	float: right;
     margin-right: 1em;
+}
+.ColorBtn{
+    height: 30px;
+    width: 30px;
+    display: block;
+    margin-top: 7px;
+    margin-left: 10px;
+    float: left;
+    background: white;
+}
+.green{
+    background: rgb(210,229,210) !important;
+    color: black;
+}
+.warm{
+    background: rgb(253,246,227) !important;
+    color: gray;
+}
+.dark{
+    background: rgb(13, 13, 13) !important;
+    color: rgb(100,100,100);
 }

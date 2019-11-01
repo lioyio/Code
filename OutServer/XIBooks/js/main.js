@@ -209,6 +209,7 @@ function openChapter(info, curNum) {
 	}
 	net.require(`getcontent?id=${info.id}&cp=${info.chapterid}`, (err, result) => {
 		if (!err) {
+			page.changeChapter(info,info.chapterid);
 			page.show(info.bookname, info.chapterlist[info.chapterid].name, result.content, curNum);
 		} else {
 			mui.toast('没有更新的了');
@@ -272,6 +273,9 @@ function refreshBook() {
 	for (let i = 0; i < localStorage.length; ++i) {
 		let id = localStorage.key(i);
 		let info = localStorage.getItem(id);
+		if(id == "theme"){
+			continue;
+		}
 		info = JSON.parse(info);
 		let book = $(`
 			<div style="height: 10em;width: 5.714em;float: left;position: relative;margin:.7em;">

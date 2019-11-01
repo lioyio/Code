@@ -28,7 +28,6 @@ class Page {
 		 */
 		$(this.parent).css({
 			position: "relative",
-			background: "rgb(210,229,210)",
 			overflowX: "hidden"
 		});
 		$(this.parent).html(`
@@ -77,7 +76,11 @@ class Page {
 				<div class="pageBtn" id="next"></div>
 				<div class="pageBtn" id="menu"></div>
 			</div>
-			<div id="ToolBar" class="mui-bar mui-bar-nav"></div>
+			<div id="ToolBar" class="mui-bar mui-bar-nav">
+				<a class="ColorBtn green"></a>
+				<a class="ColorBtn warm"></a>
+				<a class="ColorBtn dark"></a>
+			</div>
 			<div id="Catalogue">
 				<div class="mui-bar mui-bar-nav">
 					<a id="catalogueCloseBtn" class="mui-icon mui-icon-closeempty mui-pull-right" style="color:white;font-weight: bolder;"></a>
@@ -91,9 +94,9 @@ class Page {
 				</div>
 			</div>
 		`);
-		setInterval(()=>{
-			$(".Time").text(new Date().toTimeString().substr(0,5));
-		},60*1000);
+		setInterval(() => {
+			$(".Time").text(new Date().toTimeString().substr(0, 5));
+		}, 60 * 1000);
 		$(".Page", this.parent).on("transitionend", event => {
 			--this.moving;
 			if ($(event.currentTarget).hasClass("next")) {
@@ -102,7 +105,7 @@ class Page {
 				$(".Page.next .Text").css({
 					"margin-top": (this.curNum + 1) * this.height * -1 + "px"
 				});
-				$(".Page.next .Process").text(`${this.curNum+2}/${this.pageNum}`);
+				$(".Page.next .Process").text(`${this.curNum + 2}/${this.pageNum}`);
 			}
 			if ($(event.currentTarget).hasClass("prev")) {
 				$(event.currentTarget).css("z-index", "");
@@ -112,11 +115,11 @@ class Page {
 				});
 				$(".Page.prev .Process").text(`${this.curNum}/${this.pageNum}`);
 			}
-			if(dev.constructor == Promise){
-				navigator.getBattery().then(data=>{
+			if (dev.constructor == Promise) {
+				navigator.getBattery().then(data => {
 					$(".Battery").css("background-size", data.level * 90 + "% 8px");
 				});
-			} else{
+			} else {
 				$(".Battery").css("background-size", dev.batteryLevel() * 90 + "% 8px");
 			}
 		});
@@ -193,12 +196,25 @@ class Page {
 			}
 		});
 		$("#catalogueBtn").click(() => {
+			this.changeChapter(this.info, this.info.chapterid);
 			$("#Catalogue").show();
 			$("#BackBar,#ToolBar").hide();
 		});
 		$("#catalogueCloseBtn").click(() => {
 			$("#Catalogue").hide();
 			$("#BackBar,#ToolBar").show();
+		});
+		let p = this;
+		$(".ColorBtn").click(function () {
+			let theme;
+			if ($(this).hasClass("green")) {
+				theme = "green";
+			} else if ($(this).hasClass("warm")) {
+				theme = "warm";
+			} else if ($(this).hasClass("dark")) {
+				theme = "dark";
+			}
+			p.changeTheme(theme);
 		});
 	}
 	resize(fontSize, lineHeight, curNum) {
@@ -240,15 +256,15 @@ class Page {
 		$(".Page.next .Text").css({
 			"margin-top": (this.curNum + 1) * this.height * -1 + "px"
 		});
-		$(".Page.now .Process").text(`${this.curNum+1}/${this.pageNum}`);
+		$(".Page.now .Process").text(`${this.curNum + 1}/${this.pageNum}`);
 		$(".Page.prev .Process").text(`${this.curNum}/${this.pageNum}`);
-		$(".Page.next .Process").text(`${this.curNum+2}/${this.pageNum}`);
-		$(".Time").text(new Date().toTimeString().substr(0,5));
-		if(dev.constructor == Promise){
-			navigator.getBattery().then(data=>{
+		$(".Page.next .Process").text(`${this.curNum + 2}/${this.pageNum}`);
+		$(".Time").text(new Date().toTimeString().substr(0, 5));
+		if (dev.constructor == Promise) {
+			navigator.getBattery().then(data => {
 				$(".Battery").css("background-size", data.level * 90 + "% 8px");
 			});
-		} else{
+		} else {
 			$(".Battery").css("background-size", dev.batteryLevel() * 90 + "% 8px");
 		}
 	}
@@ -271,18 +287,36 @@ class Page {
 			catalogueListClick(p.info, $(this).attr("chapter") * 1);
 		});
 	}
-	show(bookname,title, text, curNum) {
+	changeChapter(info, chapter) {
+		if (this.info.chapterlist.length < chapter) {
+			this.createCatalogue(info);
+		}
+		$("#Cataloguelist").offset({ top: 0 });
+		let offset = chapter * -43 + $("#Catalogue").height() / 2;
+		if (offset > 0) {
+			offset = 0;
+		} else if (offset < info.chapterlist.length * -43) {
+			offset = info.chapterlist.length * -43;
+		}
+		$("#Cataloguelist").css({ top: offset });
+		$("#Cataloguelist .select").removeClass("select");
+		$("a[chapter='" + chapter + "']").parent().addClass("select");
+	}
+	show(bookname, title, text, curNum) {
+		let theme = localStorage.getItem("theme");
+		if(!$(".Page .Text", this.parent).hasClass(theme)){
+			this.changeTheme(theme);
+		}
 		$(".Title .name1").text(bookname);
 		$(".Title .name2").text(title);
 		text = text.replace(/\n+/g, "<br>").replace(/[	]/g, "&nbsp;&nbsp;&nbsp;&nbsp;");
 		$(".Page .Text").html(text);
 		this.resize(22, 1.5, curNum);
 	}
-	changeTheme(background, color) {
-		$(this.parent, ".Page .Text").css({
-			background,
-			color
-		});
+	changeTheme(theme) {
+		$(".Page .Text", this.parent).removeClass("green warm dark").addClass(theme);
+		$("#BookPages").removeClass("green warm dark").addClass(theme);
+		localStorage.setItem("theme", theme);
 	}
 }
 
